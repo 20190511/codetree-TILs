@@ -82,11 +82,11 @@ int main(void)
 		char name_char[32];
 		int cmd, t, x, cnt;
 		string name;
-		scanf("%d", &cmd);
+		scanf("%d %d", &cmd, &t);
 
 		// 현재 시간 대비 
 		if (cmd == 100) {
-			scanf("%d %d %s", &t, &x, name_char);
+			scanf("%d %s", &x, name_char);
 			name = string(name_char);
 			unordered_map<string, deque<pair<int, int> > >::iterator tmp = rail.find(name);
 			int cur_pos = x - t % rail_size + 1;
@@ -103,7 +103,7 @@ int main(void)
 			total_food_cnt++;
 		}
 		else if (cmd == 200) {
-			scanf("%d %d %s %d", &t, &x, name_char, &cnt);
+			scanf("%d %s %d", &x, name_char, &cnt);
 			name = string(name_char);
 			int cur_pos = x - t % rail_size + 1; //레일을 돌리고 난 후 올라가기 때문....
 			while (cur_pos < 0)
@@ -113,7 +113,6 @@ int main(void)
 			total_man_cnt++;
 		}
 		else if (cmd == 300) {
-			scanf("%d", &t);
 			// 사이에 적용된 계산들 수행
 			eating(t);
 			printf("%d %d\n", total_man_cnt, total_food_cnt);
