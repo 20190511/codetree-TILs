@@ -38,7 +38,7 @@ void eating(int timer) {
 			int overtime, lasttime;
 			if (man_times < q_it.first) {
 				overtime = timer - q_it.first;
-				int new_man_pos = (man_pos - (q_it.first - man_times % rail_size));
+				int new_man_pos = (man_pos - (q_it.first % rail_size - man_times % rail_size));
 				while (new_man_pos < 0)
 					new_man_pos += rail_size;
 				lasttime = q_it.second > new_man_pos ? new_man_pos + rail_size - q_it.second : new_man_pos - q_it.second;
@@ -75,8 +75,6 @@ int main(void)
 	//freopen("input.txt", "r", stdin);
 	cin >> rail_size >> B;
 	for (int k = 0; k < B; k++) {
-		if (k == 21326)
-			printf("Stop\n");
 		char name_char[32];
 		int cmd, t, x, cnt;
 		string name;
