@@ -75,7 +75,7 @@ void eating(int timer) {
 int main(void)
 {
 	int B;
-	//cin.tie(0)->sync_with_stdio(false);
+	cin.tie(0)->sync_with_stdio(false);
 	//freopen("input.txt", "r", stdin);
 	cin >> rail_size >> B;
 	for (int k = 0; k < B; k++) {
@@ -116,19 +116,6 @@ int main(void)
 			scanf("%d", &t);
 			// 사이에 적용된 계산들 수행
 			eating(t);
-			/*
-			int total_cnt = 0;
-			for (map<string, deque<pair<int, int>>>::iterator it = rail.begin(); it != rail.end(); it++) {
-				total_cnt += (int)it->second.size();
-			}
-
-			int man_cnt = 0;
-			for (map<string, man_sub>::iterator it = man.begin(); it != man.end(); it++) {
-				if (it->second.second)
-					man_cnt++;
-			}
-			printf("%d %d\n", man_cnt, total_cnt);
-			*/
 			printf("%d %d\n", total_man_cnt, total_food_cnt);
 		}
 	}
