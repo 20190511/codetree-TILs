@@ -9,6 +9,7 @@
 #include <cstdio>
 #include <string>
 #include <deque>
+#include <queue>
 #include <vector>
 #include <unordered_map>
 using namespace std;
@@ -22,8 +23,81 @@ int timer = 1, rail_size;
 int total_food_cnt = 0, total_man_cnt = 0;
 unordered_map<string, man_sub> man;
 unordered_map<string, deque<pair<int, int> > > rail; //회전, 고정
+unordered_map<string, priority_queue<pair<int,int>> > sort_q; // 잔여시간으로 정렬된 큐
+
+// priorityQueue로 최소시간으로 큐 정렬
+void sortQ() {
+	for (unordered_map<string, deque<pair<int, int>>>::iterator item = rail.begin() ; item != rail.end(); item++) {
+		string cur_name = item->first;
+		deque<pair<int, int>>& dq = item->second;
+		
+		unordered_map<string, man_sub>::iterator m = man.find(cur_name);
+		if (m == man.end())
+			continue;
+
+		int man_pos = m->second.first, man_times = m->second.third;
+		while (!dq.empty()) {
+			int in_time = dq.front().first, in_pos = dq.front().second;
+			dq.pop_front();
+
+			int lasttime;
+			if (man_times < in_time) {
+				int new_man_pos = (man_pos - (in_time % rail_size - man_times % rail_size));
+				while (new_man_pos < 0)
+					new_man_pos += rail_size;
+				new_man_pos %= rail_size;
+				lasttime = in_pos > new_man_pos ? new_man_pos + rail_size - in_pos : new_man_pos - in_pos;
+			}
+			else {
+				lasttime = in_pos > man_pos ? man_pos + rail_size - in_pos : man_pos - in_pos;
+			}
+
+			unordered_map<string, priority_queue<pair<int,int>>>::iterator sq_iter = sort_q.find(cur_name);
+			if (sq_iter == sort_q.end()) {
+				sort_q[cur_name] = priority_queue<pair<int,int>>();
+				sort_q[cur_name].push({ -lasttime, in_time});
+			}
+			else
+				sq_iter->second.push({ -lasttime, in_time });
+		}
+	}
+}
+
+void eat(int timer) {
+	sortQ();
+	deque<string> delName;
+	for (unordered_map<string, man_sub>::iterator m = man.begin(); m != man.end(); m++) {
+		string cur_name = m->first;
+		int man_pos = m->second.first, man_times = m->second.third;
+		unordered_map<string, priority_queue<pair<int, int>>>::iterator s = sort_q.find(cur_name);
+		if (s == sort_q.end())
+			continue;
+	
+		priority_queue<pair<int,int>>& pq = s->second;
+		while (!pq.empty()) {
+			int lasttime = -pq.top().first, in_time = pq.top().second;
+			int overtime = man_times < in_time ? timer - in_time : timer - man_times;
+			if (overtime >= lasttime) {
+				pq.pop();
+				total_food_cnt--;
+				m->second.second--;
+				if (!m->second.second)
+					delName.push_back(cur_name);
+			}
+			else
+				break;
+		}
+	}
+	while (!delName.empty()) {
+		rail.erase(delName.front());
+		man.erase(delName.front());
+		total_man_cnt--;
+		delName.pop_front();
+	}
+}
 
 // Eating 연산 수행
+/*
 void eating(int timer) {
 	deque<string> delName;
 	for (unordered_map<string, man_sub>::iterator m = man.begin(); m != man.end(); m++) {
@@ -70,7 +144,7 @@ void eating(int timer) {
 		delName.pop_front();
 	}
 }
-
+*/
 
 int main(void)
 {
@@ -110,11 +184,12 @@ int main(void)
 				cur_pos += rail_size;
 			cur_pos %= rail_size;
 			man[name] = { cur_pos, cnt, t };
+			sortQ();
 			total_man_cnt++;
 		}
 		else if (cmd == 300) {
 			// 사이에 적용된 계산들 수행
-			eating(t);
+			eat(t);
 			printf("%d %d\n", total_man_cnt, total_food_cnt);
 		}
 	}
