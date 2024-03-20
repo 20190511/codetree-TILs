@@ -37,7 +37,7 @@ void eating(int timer) {
 			int overtime, lasttime;
 			if (man_times < q_it->first) {
 				overtime = timer - q_it->first;
-				int new_man_pos = (man_pos - (q_it->first - man_times));
+				int new_man_pos = (man_pos - (q_it->first - man_times%rail_size));
 				while (new_man_pos < 0)
 					new_man_pos += rail_size;
 				lasttime = q_it->second > new_man_pos ? new_man_pos + rail_size - q_it->second : new_man_pos - q_it->second;
@@ -85,7 +85,7 @@ int main(void)
 			scanf("%d %d %s", &t, &x, name_char);
 			name = string(name_char);
 			map<string, deque<pair<int, int> > >::iterator tmp = rail.find(name);
-			int cur_pos = x - t + 1;
+			int cur_pos = x - t%rail_size + 1;
 			while (cur_pos < 0)
 				cur_pos += rail_size;
 			cur_pos %= rail_size;
@@ -100,7 +100,7 @@ int main(void)
 		else if (cmd == 200) {
 			scanf("%d %d %s %d", &t, &x, name_char, &cnt);
 			name = string(name_char);
-			int cur_pos = x - t + 1; //레일을 돌리고 난 후 올라가기 때문....
+			int cur_pos = x - t%rail_size + 1; //레일을 돌리고 난 후 올라가기 때문....
 			while (cur_pos < 0)
 				cur_pos += rail_size;
 			cur_pos %= rail_size;
