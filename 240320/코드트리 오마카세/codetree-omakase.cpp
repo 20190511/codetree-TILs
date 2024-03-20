@@ -41,6 +41,7 @@ void eating(int timer) {
 				int new_man_pos = (man_pos - (q_it.first % rail_size - man_times % rail_size));
 				while (new_man_pos < 0)
 					new_man_pos += rail_size;
+				new_man_pos %= rail_size;
 				lasttime = q_it.second > new_man_pos ? new_man_pos + rail_size - q_it.second : new_man_pos - q_it.second;
 			}
 			else {
