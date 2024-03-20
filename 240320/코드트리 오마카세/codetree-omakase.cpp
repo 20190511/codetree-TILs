@@ -1,7 +1,7 @@
-//1130 ~ 시간안에 못 품/.
+//1130 ~ 시간안에 못 품/. <- 왤캐어렵나 했더니 구현 Platinum 3 문제더라ㅋㅋㅋ ;;;
 
 /**
-* 로직이 꼬여버림 : 이미 놓는 시점을 통일해뒀는데 이걸 꼬아서 생각해서 재계산 재계산.... 
+* 로직이 꼬여버림 : 이미 놓는 시점을 통일해뒀는데 이걸 꼬아서 생각해서 재계산 재계산....
 * --> // 이미 포인터를 회전해서 배치를 했다는건, 사람을 배치한 순간의 그 원판을 동시대에 볼 수 있도록 설계해뒀기 때문.
 */
 #define _CRT_SECURE_NO_WARNINGS
@@ -24,16 +24,17 @@ map<string, deque<pair<int, int> > > rail; //회전, 고정
 
 // Eating 연산 수행
 void eating(int timer) {
+	deque<string> delName;
 	for (map<string, man_sub>::iterator m = man.begin(); m != man.end(); m++) {
 		string cur_name = m->first;
 		int man_pos = m->second.first, man_times = m->second.third;
-		deque<pair<int, int>> &q = rail[cur_name];
+		deque<pair<int, int>>& q = rail[cur_name];
 
 		int maxCnt = (int)q.size(), cnt = 0;
 		for (deque<pair<int, int>>::iterator q_it = q.begin(); !q.empty() && cnt < maxCnt; cnt++) {
 			// 음식이 남자에게 도착할 때까지 필요한 시간을 계산한다.
-			
-			int overtime, lasttime; 
+
+			int overtime, lasttime;
 			if (man_times < q_it->first) {
 				overtime = timer - q_it->first;
 				int new_man_pos = (man_pos - (q_it->first - man_times));
@@ -45,16 +46,24 @@ void eating(int timer) {
 				overtime = timer - man_times;
 				lasttime = q_it->second > man_pos ? man_pos + rail_size - q_it->second : man_pos - q_it->second;
 			}
-			
+
 			if (overtime >= lasttime) {
 				deque<pair<int, int>>::iterator dels = q_it;
 				q_it++;
 				q.erase(dels);
 				m->second.second--;
+				if (!m->second.second)
+					delName.push_back(cur_name);
 			}
 			else
 				q_it++;
 		}
+	}
+
+	while (!delName.empty()) {
+		rail.erase(delName.front());
+		man.erase(delName.front());
+		delName.pop_front();
 	}
 }
 
@@ -65,7 +74,7 @@ int main(void)
 	//cin.tie(0)->sync_with_stdio(false);
 	//freopen("test.txt", "w", stdout);
 	cin >> rail_size >> B;
-	for (int k = 0 ; k < B ; k++) {
+	for (int k = 0; k < B; k++) {
 		char name_char[32];
 		int cmd, t, x, cnt;
 		string name;
@@ -75,10 +84,10 @@ int main(void)
 		if (cmd == 100) {
 			scanf("%d %d %s", &t, &x, name_char);
 			name = string(name_char);
-			map<string, deque<pair<int,int> > >::iterator tmp = rail.find(name);
+			map<string, deque<pair<int, int> > >::iterator tmp = rail.find(name);
 			int cur_pos = x - t + 1;
 			while (cur_pos < 0)
-				cur_pos += rail_size; 
+				cur_pos += rail_size;
 			cur_pos %= rail_size;
 			if (tmp == rail.end()) {
 				rail[name] = deque<pair<int, int>>();
@@ -95,7 +104,7 @@ int main(void)
 			while (cur_pos < 0)
 				cur_pos += rail_size;
 			cur_pos %= rail_size;
-			man[name] = { cur_pos, cnt, t};
+			man[name] = { cur_pos, cnt, t };
 		}
 		else if (cmd == 300) {
 			scanf("%d", &t);
@@ -105,7 +114,7 @@ int main(void)
 			for (map<string, deque<pair<int, int>>>::iterator it = rail.begin(); it != rail.end(); it++) {
 				total_cnt += (int)it->second.size();
 			}
-			
+
 			int man_cnt = 0;
 			for (map<string, man_sub>::iterator it = man.begin(); it != man.end(); it++) {
 				if (it->second.second)
