@@ -106,17 +106,16 @@ int main(void)
 	//freopen("input.txt", "r", stdin);
 	//freopen("output.txt", "w", stdout);
 	int m;
-	scanf("%d %d", &rail_size, &m);
+	cin.tie(0)->sync_with_stdio(false);
+	cin >> rail_size >> m;
 	while (m--) {
-		char c_name[32];
 		string name;
 		int cmd, t, x, n;
-		scanf("%d %d", &cmd, &t);
+		cin >> cmd >> t;
 
 		if (cmd == 100) {
 			totalFoodCnt++;
-			scanf("%d %s", &x, c_name);
-			name = string(c_name);
+			cin >> x >> name;
 			auto pq_it = pq.find(name);
 			/*
 			int pos = x - t % rail_size + 1;
@@ -140,12 +139,11 @@ int main(void)
 		}
 		else if (cmd == 200) {
 			totalManCnt++;
-			scanf("%d %s %d", &x, c_name, &n);
+			cin >> x >> name >> n;
 			/*
 			int pos = x - t % rail_size + 1;
 			while (pos < 0) pos += rail_size;
 			*/
-			name = string(c_name);
 
 			man[name] = { t, x, n };
 			manSort(name, t);
