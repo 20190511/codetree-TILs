@@ -1,9 +1,10 @@
+#ifndef DEBUG
 // 재도전 ... 2036
 #define _CRT_SECURE_NO_WARNINGS
 #include <iostream>
 #include <unordered_map>
 #include <queue>
-#include <deque>
+#include <vector>
 #include <string>
 using namespace std;
 struct detail {
@@ -13,10 +14,10 @@ struct detail {
 };
 
 int rail_size, totalFoodCnt = 0, totalManCnt = 0;
-unordered_map <string, deque<pair<int, int>>> rail; //시간, 위치
+unordered_map <string, vector<pair<int, int>>> rail; //시간, 위치
 unordered_map <string, detail> man; //시간, 위치, 먹는 개수, 원래위치
 unordered_map <string, priority_queue<pair<int, int>>> prev_q;
-unordered_map <string, deque<pair<int, int>>> pq; //시간 위치
+unordered_map <string, vector<pair<int, int>>> pq; //시간 위치
 
 int calcLastTime(string name, int pos)
 {
@@ -29,7 +30,7 @@ void manSort(string name, int timer)
 {
 	auto rail_it = rail.find(name);
 	if (rail_it == rail.end()) {
-		pq[name] = deque<pair<int, int>>();
+		pq[name] = vector<pair<int, int>>();
 		return;
 	}
 
@@ -37,16 +38,16 @@ void manSort(string name, int timer)
 	detail& tmp = man[name];
 	int manTime = tmp.first, manPos = tmp.second;
 
-	deque<pair<int, int>>& dq = rail_it->second;
-	pq[name] = deque<pair<int, int>>();
+	vector<pair<int, int>>& dq = rail_it->second;
+	pq[name] = vector<pair<int, int>>();
 	prev_q[name] = priority_queue<pair<int, int>>();
 
 	while (!dq.empty()) {
-		int item_time = dq.front().first, item_pos = dq.front().second;
+		int item_time = dq.back().first, item_pos = dq.back().second;
 		int item_cur_pos = (item_pos + (timer - item_time)) % rail_size;
 		int lasttime = calcLastTime(name, item_cur_pos);
-		prev_q[name].push({ -lasttime, dq.front().first }); //최소힙 정렬
-		dq.pop_front();
+		prev_q[name].push({ -lasttime, dq.back().first }); //최소힙 정렬
+		dq.pop_back();
 	}
 }
 
@@ -72,11 +73,11 @@ void eatProcess(int curTime) {
 	}
 
 	for (auto man_it = pq.begin(); man_it != pq.end(); man_it++) {
-		deque<pair<int, int>>& dq = man_it->second, newQ;
+		vector<pair<int, int>>& dq = man_it->second, newQ;
 		auto& man_obj = man[man_it->first];
 		while (!dq.empty()) {
-			int overtime = curTime - dq.front().second;
-			int lasttime = -dq.front().first;
+			int overtime = curTime - dq.back().second;
+			int lasttime = -dq.back().first;
 			if (overtime >= lasttime) {
 				totalFoodCnt--;
 				man_obj.third--;
@@ -84,26 +85,26 @@ void eatProcess(int curTime) {
 					deleteQ.push_back(man_it->first);
 			}
 			else
-				newQ.push_back(dq.front());
-			dq.pop_front();
+				newQ.push_back(dq.back());
+			dq.pop_back();
 		}
 		man_it->second = newQ;
 	}
 
 	while (!deleteQ.empty()) {
 		totalManCnt--;
-		rail.erase(deleteQ.front());
-		man.erase(deleteQ.front());
-		pq.erase(deleteQ.front());
-		prev_q.erase(deleteQ.front());
-		deleteQ.pop_front();
+		rail.erase(deleteQ.back());
+		man.erase(deleteQ.back());
+		pq.erase(deleteQ.back());
+		prev_q.erase(deleteQ.back());
+		deleteQ.pop_back();
 	}
 
 }
 
 int main(void)
 {
-	//freopen("input.txt", "r", stdin);
+	freopen("input.txt", "r", stdin);
 	//freopen("output.txt", "w", stdout);
 	int m;
 	cin.tie(0)->sync_with_stdio(false);
@@ -130,7 +131,7 @@ int main(void)
 
 			auto rail_it = rail.find(name);
 			if (rail_it == rail.end()) {
-				rail[name] = deque<pair<int, int>>();
+				rail[name] = vector<pair<int, int>>();
 				rail[name].push_back({ t, x });
 			}
 			else
@@ -157,3 +158,4 @@ int main(void)
 	}
 	return 0;
 }
+#endif
