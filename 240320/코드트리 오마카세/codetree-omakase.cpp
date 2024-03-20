@@ -28,8 +28,11 @@ int calcLastTime(string name, int t, int pos)
 void manSort(string name)
 {
 	auto rail_it = rail.find(name);
-	if (rail_it == rail.end())
+	if (rail_it == rail.end()) {
+		pq[name] = priority_queue<pair<int, int>>();
 		return;
+	}
+		
 
 	detail &tmp = man[name];
 	int manTime = tmp.first, manPos = tmp.second;
