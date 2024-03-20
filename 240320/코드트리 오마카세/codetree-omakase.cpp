@@ -104,7 +104,7 @@ void eatProcess(int curTime) {
 
 int main(void)
 {
-	freopen("input.txt", "r", stdin);
+	//freopen("input.txt", "r", stdin);
 	//freopen("output.txt", "w", stdout);
 	int m;
 	cin.tie(0)->sync_with_stdio(false);
