@@ -19,6 +19,7 @@ struct man_sub {
 	int third;
 };
 int timer = 1, rail_size;
+int total_food_cnt = 0, total_man_cnt = 0;
 map<string, man_sub> man;
 map<string, deque<pair<int, int> > > rail; //회전, 고정
 
@@ -53,6 +54,7 @@ void eating(int timer) {
 				newQ.push_back(q_it);
 			}
 			else {
+				total_food_cnt--;
 				m->second.second--;
 				if (!m->second.second)
 					delName.push_back(cur_name);
@@ -64,6 +66,7 @@ void eating(int timer) {
 	while (!delName.empty()) {
 		rail.erase(delName.front());
 		man.erase(delName.front());
+		total_man_cnt--;
 		delName.pop_front();
 	}
 }
@@ -97,6 +100,7 @@ int main(void)
 			else {
 				rail[name].push_back({ t, cur_pos });
 			}
+			total_food_cnt++;
 		}
 		else if (cmd == 200) {
 			scanf("%d %d %s %d", &t, &x, name_char, &cnt);
@@ -106,11 +110,13 @@ int main(void)
 				cur_pos += rail_size;
 			cur_pos %= rail_size;
 			man[name] = { cur_pos, cnt, t };
+			total_man_cnt++;
 		}
 		else if (cmd == 300) {
 			scanf("%d", &t);
 			// 사이에 적용된 계산들 수행
 			eating(t);
+			/*
 			int total_cnt = 0;
 			for (map<string, deque<pair<int, int>>>::iterator it = rail.begin(); it != rail.end(); it++) {
 				total_cnt += (int)it->second.size();
@@ -122,6 +128,8 @@ int main(void)
 					man_cnt++;
 			}
 			printf("%d %d\n", man_cnt, total_cnt);
+			*/
+			printf("%d %d\n", total_man_cnt, total_food_cnt);
 		}
 	}
 
