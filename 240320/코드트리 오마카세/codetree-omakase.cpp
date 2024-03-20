@@ -10,7 +10,7 @@
 #include <string>
 #include <deque>
 #include <vector>
-#include <map>
+#include <unordered_map>
 using namespace std;
 
 struct man_sub {
@@ -20,13 +20,13 @@ struct man_sub {
 };
 int timer = 1, rail_size;
 int total_food_cnt = 0, total_man_cnt = 0;
-map<string, man_sub> man;
-map<string, deque<pair<int, int> > > rail; //회전, 고정
+unordered_map<string, man_sub> man;
+unordered_map<string, deque<pair<int, int> > > rail; //회전, 고정
 
 // Eating 연산 수행
 void eating(int timer) {
 	deque<string> delName;
-	for (map<string, man_sub>::iterator m = man.begin(); m != man.end(); m++) {
+	for (unordered_map<string, man_sub>::iterator m = man.begin(); m != man.end(); m++) {
 		string cur_name = m->first;
 		int man_pos = m->second.first, man_times = m->second.third;
 		deque<pair<int, int>>& q = rail[cur_name];
@@ -75,7 +75,7 @@ void eating(int timer) {
 int main(void)
 {
 	int B;
-	cin.tie(0)->sync_with_stdio(false);
+	//cin.tie(0)->sync_with_stdio(false);
 	//freopen("input.txt", "r", stdin);
 	cin >> rail_size >> B;
 	for (int k = 0; k < B; k++) {
@@ -88,7 +88,7 @@ int main(void)
 		if (cmd == 100) {
 			scanf("%d %d %s", &t, &x, name_char);
 			name = string(name_char);
-			map<string, deque<pair<int, int> > >::iterator tmp = rail.find(name);
+			unordered_map<string, deque<pair<int, int> > >::iterator tmp = rail.find(name);
 			int cur_pos = x - t % rail_size + 1;
 			while (cur_pos < 0)
 				cur_pos += rail_size;
