@@ -4,6 +4,18 @@
 #include <unordered_map>
 #include <algorithm>
 // 시간별로 정렬하되 스시를 먹을 때마다 갱신 08:30 ~ 09:00
+/**
+	핵심 아이디어 : 
+ >> CMD Vector를 모두 받아두고 Eating 하는 순서를 sort 정렬을 통해 정렬시킴
+ >>> 중요한 점은, 이전 아이디어처럼 가독성을 높이기 위해 연산 시에만 배열을 돌려서 보는걸 추천
+ 	(미리 돌려서 넣어서 이게 맞는지 틀린지 확인 불가능한 코드는 안 좋은 코드임")
+
+ >>중요 점
+  : unordered_map 을 복잡하게 만들지 말 것. 되도록이면 그냥 아래처럼 변수 3개로 운용할 것
+  	(메모리는 많이 차지하지만 속도는 빠름)
+  : deque보다 vector가 월등히 빠르므로 선입선출이 상관없을 시 vector를 사용할 것.
+  : sort는 a < b 가 True 이면 1로 설정되므로 (return 값이 크다? a 가 b 보다 앞에오는 조건임)
+*/
 using namespace std;
 struct CMD {
 	int cmd;
