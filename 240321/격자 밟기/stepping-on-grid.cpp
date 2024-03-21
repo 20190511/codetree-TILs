@@ -1,6 +1,6 @@
 #include <iostream>
 #include <vector>
-//0913
+//0913 ~ 0935 <-- 20분컷
 using namespace std;
 #define SUCCESS	25
 #define CHECK(X,Y) (X < 0 || X >= 5 || Y < 0 || Y >= 5 || map[X][Y])
