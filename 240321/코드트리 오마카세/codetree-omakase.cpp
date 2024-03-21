@@ -3,7 +3,7 @@
 #include <vector>
 #include <unordered_map>
 #include <algorithm>
-// 시간별로 정렬하되 스시를 먹을 때마다 갱신 08:30 ~ 
+// 시간별로 정렬하되 스시를 먹을 때마다 갱신 08:30 ~ 09:00
 using namespace std;
 struct CMD {
 	int cmd;
