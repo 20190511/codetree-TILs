@@ -1,4 +1,5 @@
 //1850
+#define _CRT_SECURE_NO_WARNINGS
 #define DEBUG false
 #include <iostream>
 #include <vector>
@@ -69,6 +70,7 @@ void collison(int santaN, int dx, int dy, int power) {
 		int tx = santa[sn - 1].x, ty = santa[sn - 1].y;
 		if (tx < 0 || tx >= n || ty < 0 || ty >= n) {
 			santa[sn - 1].status = -1;
+			santaCnt--;
 			continue;
 		}
 		map[santa[sn - 1].x][santa[sn - 1].y] = sn;
@@ -131,9 +133,6 @@ void santa_run() {
 
 	int rx = ru_pos.first, ry = ru_pos.second;
 	for (int i = 0; i < santaN; i++) {
-#if DEBUG
-		cout << i + 1 << "번째 시도 >> " << endl;
-#endif
 		if (santa[i].status) continue;
 
 		int sx = santa[i].x, sy = santa[i].y;
@@ -170,6 +169,9 @@ void santa_run() {
 void run() {
 	santaCnt = santaN;
 	for (int i = 0; i < m; i++) {
+#if DEBUG
+		cout << i + 1 << "번째 시도 >> " << endl;
+#endif
 		ru_run();
 		if (!santaCnt)
 			break;
@@ -201,6 +203,7 @@ void run() {
 
 int main(void)
 {
+	freopen("input.txt", "r", stdin);
 	cin.tie(0)->sync_with_stdio(false);
 	cin >> n >> m >> santaN >> ruP >> santaP;
 	int tx, ty;
