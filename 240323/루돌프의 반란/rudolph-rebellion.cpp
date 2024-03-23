@@ -203,7 +203,6 @@ void run() {
 
 int main(void)
 {
-	freopen("input.txt", "r", stdin);
 	cin.tie(0)->sync_with_stdio(false);
 	cin >> n >> m >> santaN >> ruP >> santaP;
 	int tx, ty;
