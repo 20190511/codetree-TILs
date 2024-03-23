@@ -1,5 +1,5 @@
 //1850
-#define DEBUG 0
+#define DEBUG false
 #include <iostream>
 #include <vector>
 #include <deque>
@@ -39,6 +39,7 @@ void collison(int santaN, int dx, int dy, int power) {
 	int newX = ndx + csx, newY = ndy + csy;
 	if (newX < 0 || newX >= n || newY < 0 || newY >= n) {
 		santa[santaN - 1].status = -1;
+		santaCnt--;
 		return;
 	}
 	if (!map[newX][newY]) {
@@ -130,6 +131,9 @@ void santa_run() {
 
 	int rx = ru_pos.first, ry = ru_pos.second;
 	for (int i = 0; i < santaN; i++) {
+#if DEBUG
+		cout << i + 1 << "번째 시도 >> " << endl;
+#endif
 		if (santa[i].status) continue;
 
 		int sx = santa[i].x, sy = santa[i].y;
