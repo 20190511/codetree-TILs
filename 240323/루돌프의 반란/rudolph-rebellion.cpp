@@ -1,4 +1,9 @@
-//1850
+//1850 ~ 2130
+// 좀 실수가 잦았음
+/**
+* > santa 줄여주는거 하지 못했던 실수
+* > 갑자기 혼란와서 조건 식 잘못 쓰는 문제점 있었음. <<- 구현할 때 디버깅 잘 쓰면서 처리할 것.
+*/
 #define _CRT_SECURE_NO_WARNINGS
 #define DEBUG false
 #include <iostream>
@@ -203,6 +208,7 @@ void run() {
 
 int main(void)
 {
+	freopen("input.txt", "r", stdin);
 	cin.tie(0)->sync_with_stdio(false);
 	cin >> n >> m >> santaN >> ruP >> santaP;
 	int tx, ty;
@@ -220,3 +226,4 @@ int main(void)
 
 	return 0;
 }
+
