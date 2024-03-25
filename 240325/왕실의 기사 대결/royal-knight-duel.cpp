@@ -126,7 +126,7 @@ bool man_move(set<int> &q, int m, int dir) {
 void run() {
 	for (int s = 0; s < Q; s++) {
 		int f = cmd[s].first, d = cmd[s].second;
-		if (figher[d].hp <= 0) continue;
+		if (figher[f].hp <= 0) continue;
 		bool check;
 		bool visited[31];
 		memset(visited, 0, sizeof(visited));
