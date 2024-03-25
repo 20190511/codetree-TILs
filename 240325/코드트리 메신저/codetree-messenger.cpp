@@ -2,13 +2,13 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include <iostream>
 #include <queue>
-#include <set>
+#include <unordered_set>
 #include <vector>
 using namespace std;
 
 struct alarm {
 	int next;
-	set<int> prev;
+	unordered_set<int> prev;
 	int power;
 	int cnt;
 	bool on_off; // cnt+1 만큼 위에 껐다 켰다 해야함.
@@ -41,7 +41,8 @@ int main(void) {
 	for (int i = 1; i <= N; i++) {
 		int mom;
 		cin >> mom;
-		vecQ[i] = { mom, {}, 0, 0, true};
+		vecQ[i].next = mom;
+		vecQ[i].on_off = true;
 		vecQ[mom].prev.insert(i);
 	}
 	
@@ -97,8 +98,8 @@ void run() {
 			vecQ[c.c1].power = c.power;
 		}
 		else if (c.cmd == 400) {
-			bool st1 = vecQ[c.c1].on_off, st2 = vecQ[c.c2].on_off;
 			int n1 = vecQ[c.c1].next, n2 = vecQ[c.c2].next;
+			if (n1 == n2) continue;
 			
 			vecQ[n1].prev.erase(c.c1);
 			vecQ[n2].prev.erase(c.c2);
