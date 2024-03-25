@@ -74,8 +74,6 @@ int main(void) {
 int sums = 0;
 //depth 1로 시작
 void dfs(int s, int depth) {
-	if (!vecQ[s].on_off)
-		return;
 
 	for (auto p : vecQ[s].prev) {
 		if (vecQ[p].on_off) {
