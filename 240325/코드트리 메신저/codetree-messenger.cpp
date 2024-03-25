@@ -22,7 +22,7 @@ struct cmd {
 	int power;
 };
 
-alarm vecQ[100000];
+alarm vecQ[100001];
 queue<int> sortQ;
 vector<cmd> cmdQ;
 int N, Q;
@@ -31,7 +31,6 @@ void alarm_on(int s);
 void alarm_off(int s);
 void run();
 int main(void) {
-	//freopen("input.txt", "r", stdin);
 	cin.tie(0)->sync_with_stdio(false);
 	cin >> N >> Q;
 	int cmd;
