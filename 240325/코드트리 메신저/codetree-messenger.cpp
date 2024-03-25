@@ -59,12 +59,12 @@ void alarmOn(int s) {
 
 	//ptable에서 onBit 된 것들만큼 순회
 	for (int depth = 1;  ; depth++) {
-	
+		if (!vecQ[curNode].on_off) break;
 		for (int i = 0; i + depth < 22; i++) {
 			ptable[curNode][i] += ptable[s][i + depth];
 		}
 		if (!curNode) break;
-		if (!vecQ[curNode].on_off) break;
+		
 		curNode = vecQ[curNode].next;
 	}
 }
