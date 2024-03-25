@@ -35,17 +35,21 @@ void alarmOff(int s) {
 	int curNode = vecQ[s].next, curPower = vecQ[s].power;
 	if (!vecQ[s].on_off)
 		return;
-
 	//ptable에서 onBit 된 것들만큼 순회
-	for (int depth = 1; vecQ[curNode].on_off ; depth++) {
+	for (int depth = 1; ; depth++) {
 		for (int i = 0; i+depth < 22; i++) {
 			ptable[curNode][i] -= ptable[s][i+depth];
 		}
 		
 		if (!curNode) break;
+		if (!vecQ[curNode].on_off)
+			break;
 		curNode = vecQ[curNode].next;
+		
 
 	}
+
+
 }
 
 void alarmOn(int s) {
@@ -54,12 +58,13 @@ void alarmOn(int s) {
 		return;
 
 	//ptable에서 onBit 된 것들만큼 순회
-	for (int depth = 1; vecQ[curNode].on_off ; depth++) {
+	for (int depth = 1;  ; depth++) {
 	
 		for (int i = 0; i + depth < 22; i++) {
 			ptable[curNode][i] += ptable[s][i + depth];
 		}
 		if (!curNode) break;
+		if (!vecQ[curNode].on_off) break;
 		curNode = vecQ[curNode].next;
 	}
 }
