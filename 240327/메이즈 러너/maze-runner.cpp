@@ -120,7 +120,10 @@ void rt() {
 	for (int i = 0; i < M; i++) {
 		int tx = man_pos[i].first, ty = man_pos[i].second;
 		if (tx < 0 || ty < 0) continue;
-		int n1 = getN1(ox, oy, tx, ty);
+
+		int costX = ox < tx ? tx - ox : ox - tx;
+		int costY = oy < ty ? ty - oy : oy - ty;
+		int n1 = max(costX, costY);
 
 		if  ((smallPath > n1) || 
 			((smallPath == n1) && (tx < mx)) ||
