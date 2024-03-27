@@ -1,4 +1,8 @@
 //1100
+/**
+	1. minPos 잡는 부분 잘못된 접근이 계속 나옴
+	--> 처음에는 단순히 rx, ry가 큰 애로 잡았다가 오류가 남..
+*/
 #define _CRT_SECURE_NO_WARNINGS
 #define DEBUG false
 #include <iostream>
@@ -17,14 +21,19 @@ int N, M, K; //M=참가자 수
 int man_cnt, moving = 0;
 
 
-void printMap(int map[10][10]) {
+void printMap() {
 	cout << "==============" << endl;
 	for (int i = 0; i < N; i++) {
 		for (int j = 0; j < N; j++) {
 			if (ex.first == i && ex.second == j)
-				cout << "X ";
+				cout << "X  ";
 			else
-				cout << map[i][j] << " ";
+				if (map[i][j])
+					printf("%-2d ", map[i][j]);
+				else if (man[i][j])
+					printf("%-2d ", -man[i][j]);
+				else
+					printf("   ");
 		}
 		cout << endl;
 	}
@@ -61,6 +70,9 @@ void shortMove (int mCnt) {
 	//이동
 	if (mvNum == -1) return;
 
+#if DEBUG
+	cout << "moving :: " << mx << "," << my << "-->"<<curPath << endl;
+#endif
 	moving++;
 	int dx = mx + mv[mvNum].first, dy = my + mv[mvNum].second;
 	man[mx][my]--;
@@ -116,6 +128,8 @@ void rotateG(int a, int b, int r) {
 void rt() {
 	int smallPath = INF, mx = N, my = N;
 	int ox = ex.first, oy = ex.second;
+	int rdx=INF, rdy=INF, lux=INF ,luy=INF;
+
 
 	for (int i = 0; i < M; i++) {
 		int tx = man_pos[i].first, ty = man_pos[i].second;
@@ -124,27 +138,41 @@ void rt() {
 		int costX = ox < tx ? tx - ox : ox - tx;
 		int costY = oy < ty ? ty - oy : oy - ty;
 		int n1 = max(costX, costY);
-		int minPos = max(tx, ty);
+		if (smallPath < n1) continue;
+
+		int trdx = max(tx, ox), trdy = max(ty, oy);
+		int tlux = trdx - n1, tluy = trdy - n1;
+		if (smallPath > n1) {
+			smallPath = n1;
+			rdx = trdx;
+			rdy = trdy;
+			lux = tlux;
+			luy = tluy;
+		}
+		else if ((tlux < lux) || ((tlux == lux) && (tluy < luy))) {
+			rdx = trdx;
+			rdy = trdy;
+			lux = tlux;
+			luy = tluy;
+		}
 		/*
 		if  ((smallPath > n1) || 
 			((smallPath == n1) && (tx < mx)) ||
 			((smallPath == n1) && (tx == mx) && (ty < my)) )
-		*/
+		
 		if ((smallPath > n1) ||
 			((smallPath == n1) && (minPos < max(mx,my))) )
 		{
 			mx = tx, my = ty;
 			smallPath = n1;
 		}
+		*/
 	}
 
 #if DEBUG
 	cout << "in rotate\n";
 	cout << mx << ", " << my << endl;
 #endif
-
-	int rdx = max(mx, ox), rdy = max(my, oy);
-	int lux = rdx - smallPath, luy = rdy - smallPath;
 
 	if (lux < 0) {
 		lux = 0;
@@ -167,6 +195,9 @@ void rt() {
 }
 
 void run() {
+#if DEBUG
+	printMap();
+#endif
 	man_cnt = M;
 	for (int t = 0; t < K; t++) {
 #if DEBUG
@@ -176,8 +207,7 @@ void run() {
 		move();
 #if DEBUG
 		cout << "Man count = " << man_cnt << ", moving = " << moving << endl;
-		printMap(map);
-		printMap(man);
+		printMap();
 		cout << "move   finish ===== \n";
 #endif
 		if (!man_cnt)
@@ -185,8 +215,7 @@ void run() {
 		//회전
 		rt();
 #if DEBUG
-		printMap(map);
-		printMap(man);
+		printMap();
 		cout << "rotate FInish ===== \n\n";
 
 #endif 
