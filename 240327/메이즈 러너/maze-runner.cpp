@@ -124,10 +124,14 @@ void rt() {
 		int costX = ox < tx ? tx - ox : ox - tx;
 		int costY = oy < ty ? ty - oy : oy - ty;
 		int n1 = max(costX, costY);
-
+		int minPos = max(tx, ty);
+		/*
 		if  ((smallPath > n1) || 
 			((smallPath == n1) && (tx < mx)) ||
 			((smallPath == n1) && (tx == mx) && (ty < my)) )
+		*/
+		if ((smallPath > n1) ||
+			((smallPath == n1) && (minPos < max(mx,my))) )
 		{
 			mx = tx, my = ty;
 			smallPath = n1;
