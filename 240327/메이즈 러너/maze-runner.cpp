@@ -142,6 +142,16 @@ void rt() {
 
 		int trdx = max(tx, ox), trdy = max(ty, oy);
 		int tlux = trdx - n1, tluy = trdy - n1;
+		if (tlux < 0) {
+			tlux = 0;
+			trdx = n1;
+		}
+
+		if (tluy < 0) {
+			tluy = 0;
+			trdy = n1;
+		}
+
 		if (smallPath > n1) {
 			smallPath = n1;
 			rdx = trdx;
@@ -173,16 +183,6 @@ void rt() {
 	cout << "in rotate\n";
 	cout << mx << ", " << my << endl;
 #endif
-
-	if (lux < 0) {
-		lux = 0;
-		rdx = smallPath;
-	}
-
-	if (luy < 0) {
-		luy = 0;
-		rdy = smallPath;
-	}
 
 #if DEBUG
 	cout << "up || down" << endl;
