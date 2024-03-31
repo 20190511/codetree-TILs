@@ -1,10 +1,10 @@
-//1445
+//1245 ~ 1430 -> 1시간 45분
 #define _CRT_SECURE_NO_WARNINGS
 #include <iostream>
 #include <queue>
 #include <vector>
 #include <cstring>
-#define DEBUG false
+#define DEBUG true
 #define INF	0x7FFFFFFF
 using namespace std;
 int map[10][10], attack[10][10], attacked[10][10], visited[10][10];; //최근 공격한, 공격받은 포탑
@@ -243,11 +243,10 @@ void run() {
 		cout << "Attacked :: " << b.first << ", " << b.second << endl;
 #endif
 		if (a.first < 0 || b.first < 0) break;
-		if (a.first == b.first && a.second == b.second) break;
 		
 		map[a.first][a.second] += plusAttack;
 		attack[a.first][a.second] = i;
-		
+		if (a.first == b.first && a.second == b.second) continue;
 		attacked[b.first][b.second] = i;
 		
 		attacks(a,b, i);
@@ -275,7 +274,7 @@ void run() {
 
 int main(void)
 {
-	//freopen("input.txt", "r", stdin);
+	freopen("input.txt", "r", stdin);
 
 	cin >> N >> M >> K;
 	plusAttack = N + M;
