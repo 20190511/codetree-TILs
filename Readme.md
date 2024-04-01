@@ -26,8 +26,8 @@ D. 회전 문제의 피드백
 E. vector 활용
 
 1. 특정 영역 삭제 방법
-// src.end() - move_cnt 와 같이 삭제 가능. (인덱스 방식으로 접근해서 삭제 가능
-	>> dst.insert(dst.end(), src.end() - move_cnt, src.end()); 
+	src.end() - move_cnt 와 같이 삭제 가능. (인덱스 방식으로 접근해서 삭제 가능
+  ex) dst.insert(dst.end(), src.end() - move_cnt, src.end()); 
 2. 시간복잡도
  > 접근 O(1) <-- 배열이라서 그럼
  > 맨 뒤에 추가, 맨 뒤 삭제 : O(1)
