@@ -1,5 +1,6 @@
-//1023 ~
-#define DEBUG false
+//1023 ~ 1200
+// -> 경로 역추적 시 변수 savedX , savedY 문제 조심할 것.
+#define DEBUG true
 #define	_CRT_SECURE_NO_WARNINGS
 #include <iostream>
 #include <vector>
