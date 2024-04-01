@@ -1,4 +1,4 @@
-# [산타의 선물 공장 2 ![Platinum5][p5]](https://www.codetree.ai/training-field/frequent-problems/problems/santa-gift-factory-2)
+# [산타의 선물 공장 2 ![Diamond5][p5]](https://www.codetree.ai/training-field/frequent-problems/problems/santa-gift-factory-2)
 
 |유형|출처|
 |---|---|
