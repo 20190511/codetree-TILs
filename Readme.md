@@ -22,5 +22,16 @@ D. 회전 문제의 피드백
 		int mx = curX-a, my = curY-b;
 		int mnx = my+a, mny = r - mx - 1 + b;
 		a = {mnx, mny}와 같이 정의될 수 있다.
+
+E. vector 활용
+
+1. 특정 영역 삭제 방법
+// src.end() - move_cnt 와 같이 삭제 가능. (인덱스 방식으로 접근해서 삭제 가능
+	>> dst.insert(dst.end(), src.end() - move_cnt, src.end()); 
+2. 시간복잡도
+ > 접근 O(1) <-- 배열이라서 그럼
+ > 맨 뒤에 추가, 맨 뒤 삭제 : O(1)
+ > 중간 요소 삭제 O(N)
+>> Technique :: vector 형태로 사용할 수 있지만 초기에 순서를 반대로 넣어줘야한다면.. 그때만 반대로 넣어라.
 ```
 
