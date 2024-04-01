@@ -1,3 +1,4 @@
+[![코드트리|실력진단-qwg724](https://banner.codetree.ai/v1/banner/qwg724)](https://www.codetree.ai/profiles/qwg724)
 ## 피드백 
 ---
 1. 도형관련 잘못된 접근에 대한 피드백 -> 문제에 충실하게 풀자 (혼자 식 만들어서 푸는게 리스크가 큼)
