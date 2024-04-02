@@ -1,10 +1,11 @@
-//1120
+//1020
 #define _CRT_SECURE_NO_WARNINGS
 #define DEBUGS  false
 #define DEBUG   false
 #include <iostream>
 #include <vector>
 #include <queue>
+#include <time.h>
 using namespace std;
 struct man {
     int x;
@@ -17,7 +18,7 @@ struct man {
 priority_queue<int> map[20][20];
 int man_map[20][20];
 int N, M, K;
-int score[30];
+int score[31];
 man mans[31];
 
 
@@ -185,6 +186,9 @@ void run() {
 int main() {
 #if DEBUGS
     freopen("input.txt", "r", stdin);
+    clock_t start, end;
+    double result;
+    start = clock();
 #endif
     cin >> N >> M >> K;
     for (int i = 0; i < N; i++) {
@@ -208,5 +212,11 @@ int main() {
     printMap();
 #endif
     run();
+#if DEBUGS
+    end = clock();
+    cout << "time :: " << end - start << endl;
+
+#endif // 
+
     return 0;
 }
