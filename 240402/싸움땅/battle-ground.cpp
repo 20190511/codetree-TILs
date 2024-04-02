@@ -1,4 +1,5 @@
-//1020
+//1020 ~ 1143 <-- 시간초과가 아니라 메모리초과
+// 메모리 초과에 대한 실수 주의
 #define _CRT_SECURE_NO_WARNINGS
 #define DEBUGS  false
 #define DEBUG   false
