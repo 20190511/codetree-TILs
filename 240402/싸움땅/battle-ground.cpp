@@ -1,6 +1,7 @@
 //1120
 #define _CRT_SECURE_NO_WARNINGS
-#define DEBUG  false
+#define DEBUGS  false
+#define DEBUG   false
 #include <iostream>
 #include <vector>
 #include <queue>
@@ -131,9 +132,17 @@ void move(int m) {
 
         int lx = loser.x, ly = loser.y;
         int ldx = lx + mv[loser.d].first, ldy = ly + mv[loser.d].second; 
+        
+        int cnt = 1;
         while (ldx < 0 || ldx >= N || ldy < 0 || ldy >= N || man_map[ldx][ldy]) {
             loser.d = (loser.d + 1) % 4;
             ldx = lx + mv[loser.d].first, ldy = ly + mv[loser.d].second;
+#if DEBUG
+            if (cnt > 4) {
+                cout << "impossible loop\n";
+                exit(1);
+            }
+#endif
             //무한루프??
         }
         loser.x = ldx, loser.y = ldy;
@@ -154,11 +163,11 @@ void move(int m) {
 
 void run() {
     for (int i = 0; i < K; i++) {
+#if DEBUG
+        cout << "++++++ " << i << " ++++++" << endl;
+#endif
         // 차례대로 man 이동
         for (int m = 1; m <= M; m++) {
-#if DEBUG
-            cout << "++++++ " << i << " ++++++" << endl;
-#endif
             move(m);
 #if DEBUG
             cout << "man: " << m << " move.." << endl;
@@ -174,7 +183,7 @@ void run() {
 }
 
 int main() {
-#if DEBUG
+#if DEBUGS
     freopen("input.txt", "r", stdin);
 #endif
     cin >> N >> M >> K;
