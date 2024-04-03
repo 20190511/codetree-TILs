@@ -52,7 +52,7 @@ E. vector 활용
 |기출문제|[코드트리 빵](https://www.codetree.ai/training-field/frequent-problems/problems/codetree-mon-bread)|![Gold2][g2]|`BFS` `Simulation`|![Passed][passed]|[링크](https://github.com/20190511/codetree-TILs/blob/main/240401/%EC%BD%94%EB%93%9C%ED%8A%B8%EB%A6%AC%20%EB%B9%B5/codetree-mon-bread.cpp)|
 |기출문제|[산타의 선물 공장 2 ](https://www.codetree.ai/training-field/frequent-problems/problems/santa-gift-factory-2)|![Platinum5][p5]|`Double LinkedList` `Simulation`|![Passed][passed]|[링크](https://github.com/20190511/codetree-TILs/blob/main/240402/%EC%82%B0%ED%83%80%EC%9D%98%20%EC%84%A0%EB%AC%BC%20%EA%B3%B5%EC%9E%A5%202/santa-gift-factory-2.cpp)|
 |기출문제|[싸움땅](https://www.codetree.ai/training-field/frequent-problems/problems/battle-ground)|![Gold2][g2]|`Simulation`|![Passed][passed]|[링크](https://github.com/20190511/codetree-TILs/blob/main/240402/%EC%8B%B8%EC%9B%80%EB%95%85/battle-ground.cpp)|
-
+|기출문제|[술래잡기](https://www.codetree.ai/training-field/frequent-problems/problems/hide-and-seek)|![Gold1][g1]|`dx dy technique` `Simulation`|![Passed][passed]|[링크](https://github.com/20190511/codetree-TILs/blob/main/240403/%EC%88%A0%EB%9E%98%EC%9E%A1%EA%B8%B0/hide-and-seek.cpp)
 
 
 [b5]: https://img.shields.io/badge/Bronze_5-%235D3E31.svg
