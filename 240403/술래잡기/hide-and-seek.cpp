@@ -1,5 +1,7 @@
-//1030 
-#define DEBUG false
+//1030  ~ 1230
+// 반대방향 회전에서 30분 잡아먹어서 좀 걸림
+// 나머지 구현에서는 큰 실수 없었음.
+#define DEBUG true
 #define _CRT_SECURE_NO_WARNINGS
 #include <iostream>
 #include <vector>
