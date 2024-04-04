@@ -1,4 +1,6 @@
-//1020 ~ 1152 (초밥)
+//1020 ~ 1250 
+// 회전 시작, 끝 점 오류 수정
+// i 변수중첩실수..
 //실수 1. 꼬리잡기 부분이 다 차 있을 수도 있다.
 #define DEBUG	false
 #define _CRT_SECURE_NO_WARNINGS
