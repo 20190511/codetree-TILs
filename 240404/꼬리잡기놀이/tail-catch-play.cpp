@@ -30,6 +30,19 @@ pair<int, int> mv[4] = {
 void printMap() {
 	for (int i = 0; i < N; i++) {
 		for (int j = 0; j < N; j++) {
+			int cf = false;
+			for (int x = 0; x < M; x++) {
+				if (team[x].hx == i && team[x].hy == j) {
+					cout << "H ";
+					cf = true;
+				}
+				else if (team[x].tx == i && team[x].ty == j) {
+					cout << "T ";
+					cf = true;
+
+				}
+			}
+			if (cf) continue;
 			if (man[i][j]) cout << "M ";
 			else if (line[i][j]) cout << "1 ";
 			else
@@ -43,9 +56,20 @@ void printMap() {
 
 int manCnt(int x, int y, int& teamNum) {
 
+	for (int i = 0; i < M; i++) {
+		if (team[i].tx == x && team[i].ty == y) {
+			teamNum = i;
+			return team[i].teamCnt;
+		}
+		else if (team[i].hx == x && team[i].hy == y) {
+			teamNum = i;
+			return 1;
+		}
+	}
 	int cx = x, cy = y;
 	int count = 1;
 	int prevX=cx, prevY=cy;
+
 	for (int i = 0; i < 4; i++) {
 		int dx = cx + mv[i].first, dy = cy + mv[i].second;
 		if (prevX == dx && prevY == dy) continue;
@@ -142,6 +166,17 @@ void man_move() {
 			obj.hx = tx;
 			obj.hy = ty;
 			return;
+			/*
+			for (int i = 0; i < 4; i++) {
+				int dx = cx + mv[i].first, dy = cy + mv[i].second;
+				if (dx < 0 || dx >= N || dy < 0 || dy >= N || !line[dx][dy] || (obj.tx == dx && obj.ty == dy)) continue;
+				obj.hx = dx, obj.hy = dy;
+				break;
+			}
+			obj.tx = cx;
+			obj.ty = cy;
+			*/
+			return;
 		}
 
 		obj.hx = nx, obj.hy = ny;
@@ -207,7 +242,9 @@ void ball_move(int k) {
 	swap(team[teamNum].hy, team[teamNum].ty);
 	
 #if DEBUG
-	cout << "ball move :: " << k << ", score = " << count * count << ", team Num = " << teamNum << endl;
+	cout << "ball move :: " << k << ", score = " << count * count << ", team Num = " << teamNum << ", num =" << num << ", dir = " << dir << endl;
+	cout << "head <->tail\n";
+	cout << teamNum << ":: head " << team[teamNum].hx << ", " << team[teamNum].hy << ", tail = " << team[teamNum].tx << ", " << team[teamNum].ty << endl;
 #endif
 	score += count * count;
 }
@@ -221,7 +258,7 @@ void run() {
 		cout << "man move finish" << endl;
 		printMap();
 		for (int i = 0; i < M; i++) {
-			cout << i + 1 << ":: head " << team[i].hx << ", " << team[i].hy << ", tail = " << team[i].tx << ", " << team[i].ty << endl;
+			cout << i << ":: head " << team[i].hx << ", " << team[i].hy << ", tail = " << team[i].tx << ", " << team[i].ty << endl;
 		}
 #endif
 		ball_move(i);
