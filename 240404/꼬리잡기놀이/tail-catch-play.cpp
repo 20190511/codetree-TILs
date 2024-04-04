@@ -143,8 +143,8 @@ void findTail() {
 }
 
 void man_move() {
-	for (int i = 0; i < M; i++) {
-		info& obj = team[i];
+	for (int x = 0; x < M; x++) {
+		info& obj = team[x];
 		int cx = obj.hx, cy = obj.hy, nx = cx, ny = cy;
 		int tx = obj.tx, ty = obj.ty;
 
@@ -165,7 +165,7 @@ void man_move() {
 			}
 			obj.hx = tx;
 			obj.hy = ty;
-			return;
+			continue;
 			/*
 			for (int i = 0; i < 4; i++) {
 				int dx = cx + mv[i].first, dy = cy + mv[i].second;
@@ -176,7 +176,6 @@ void man_move() {
 			obj.tx = cx;
 			obj.ty = cy;
 			*/
-			return;
 		}
 
 		obj.hx = nx, obj.hy = ny;
