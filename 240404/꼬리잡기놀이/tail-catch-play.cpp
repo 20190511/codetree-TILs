@@ -54,21 +54,28 @@ int manCnt(int x, int y, int& teamNum) {
 		prevX = cx, prevY = cy;
 		cx = dx, cy = dy;
 		count++;
+		for (int j = 0; j < M; j++) {
+
+			if (cx == team[j].hx && cy == team[j].hy) {
+#if DEBUG
+				cout << "in manCnt :: " << cx << "," << cy << ", count = " << count << endl;
+#endif
+				teamNum = j;
+				return count;
+			}
+			else if (cx == team[j].tx && cy == team[j].ty) {
+#if DEBUG
+				cout << "in manCnt :: " << cx << "," << cy << ", count = " << team[j].teamCnt - count + 1 << endl;
+#endif
+				teamNum = j;
+				return team[j].teamCnt - count + 1;
+			}
+		}
+		
 		i = -1;
 	}
-#if DEBUG
-	cout << "in manCnt :: " << cx << "," << cy << ", count = " << count << endl;
-#endif
-	for (int i = 0; i < M; i++) {
-		if (cx == team[i].hx && cy == team[i].hy) {
-			teamNum = i;
-			return count;
-		}
-		else if (cx == team[i].tx && cy == team[i].ty) {
-			teamNum = i;
-			return team[i].teamCnt - count + 1;
-		}
-	}
+
+
 #if DEBUG
 	cout << "error" << endl;
 #endif
