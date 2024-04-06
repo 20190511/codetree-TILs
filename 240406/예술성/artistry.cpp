@@ -1,8 +1,10 @@
-//0756 ~ 0809 |밥| 0818
+//0756 ~ 0809 |밥| 0818 ~ 0940 <-- 1시간 30분
+// MAXN 최대 크기 제대로 확인
+// Group Count Side 에 대한 배열 맵 최대 크기에 대한 실수가 있었음.
 //3 ≤ n ≤ 29
 //1 ≤ 주어지는 숫자 ≤ 10
 #define _CRT_SECURE_NO_WARNINGS
-#define DEBUGS false
+#define DEBUGS true
 #define DEBUG false
 #define MAXN	32
 #include <iostream>
