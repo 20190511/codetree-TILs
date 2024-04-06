@@ -3,7 +3,7 @@
 //1 ≤ 주어지는 숫자 ≤ 10
 #define _CRT_SECURE_NO_WARNINGS
 #define DEBUG false
-#define MAXN	30
+#define MAXN	32
 #include <iostream>
 #include <vector>
 #include <deque>
