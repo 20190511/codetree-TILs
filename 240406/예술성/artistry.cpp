@@ -2,6 +2,7 @@
 //3 ≤ n ≤ 29
 //1 ≤ 주어지는 숫자 ≤ 10
 #define _CRT_SECURE_NO_WARNINGS
+#define DEBUGS false
 #define DEBUG false
 #define MAXN	32
 #include <iostream>
@@ -13,9 +14,9 @@ using namespace std;
 
 int N;
 int map[MAXN][MAXN], grp_map[MAXN][MAXN], tmp_map[MAXN][MAXN];
-int grp_side[MAXN][MAXN];
-int grp_cnt[MAXN];
-pair<int, int> grpXY[MAXN], mv[4] = {
+int grp_side[MAXN * MAXN][MAXN * MAXN];
+int grp_cnt[MAXN*MAXN];
+pair<int, int> grpXY[MAXN*MAXN], mv[4] = {
 	{0,1}, {0,-1}, {1,0}, {-1,0}
 };
 int grpCnt = 0;
@@ -182,7 +183,7 @@ void run() {
 }
 int main(void)
 {
-#if DEBUG
+#if DEBUGS
 	freopen("input.txt", "r", stdin);
 #endif
 
