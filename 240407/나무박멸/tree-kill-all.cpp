@@ -5,7 +5,7 @@
 #include <iostream>
 #include <cstring>
 #include <vector>
-//2150
+//2150 ~ 2253 (1시간 컷)
 /*
 5 ≤ n ≤ 20
 1 ≤ m ≤ 1000
