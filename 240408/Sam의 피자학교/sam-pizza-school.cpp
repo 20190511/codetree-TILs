@@ -51,7 +51,7 @@ void rotateMap(int sz, int s) {
 void crawl() {
 	int prevH = 1;
 	int hh;
-	for (hh = 3, s = 0, e = 1, h = hh / 2; h+e < N; hh++, s = e, e += h, h = hh / 2) {
+	for (hh = 3, s = 0, e = 1, h = hh / 2; h+e <= N; hh++, s = e, e += h, h = hh / 2) {
 
 #if DEBUG
 		cout << "h = " << h << ", s = " << s << ", e = " << e << ", prevH = " << prevH << endl;
