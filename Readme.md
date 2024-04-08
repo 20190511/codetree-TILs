@@ -24,6 +24,8 @@ D. 회전 문제의 피드백
 		int mx = curX-a, my = curY-b;
 		int mnx = my+a, mny = r - mx - 1 + b;
 		a = {mnx, mny}와 같이 정의될 수 있다.
+	>>!! 직사각형 Rotate의 경우 tmpMap을 두어 상대적 위치로 구하는게 좋다.
+		>> 정사각형으로 Rotate를 시킨 후(tmpMap에 정사형) --> 탐색과정에서 (가로길이, 세로길이 를 받아) 탐색을 진행하여 붙여넣는다 -
 
 E. vector 활용
 
