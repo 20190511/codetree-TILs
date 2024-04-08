@@ -1,27 +1,19 @@
-//1108 ~ 1349 (회전 30분 초과 --> 다른 방법)
-/*
-* 1 ≤ n ≤ 100
-0 ≤ k ≤ 5
-1 ≤ (밀가루의 양) ≤ 3000
-n은 4의 배수입니다.
-*/
-#define DEBUG	false
-#define DEBUGS	false
+#define DEBUG false
+#define DEBUGS false
 #define _CRT_SECURE_NO_WARNINGS
+//0930
 #include <iostream>
 #include <cstring>
-#include <vector>
-
 using namespace std;
-int s=0, e=1, h=1, minV = 3001, maxV = 0;
-int N, K;
+
 int map[100][100];
-pair<int, int> mv[4] = {
-	{0,1}, {1,0}
-};
+int tmpMap[100][100];
+int N, K;
+int s=0, e=1, h=1;
+int minV, maxV;
 
 void printMap() {
-	cout << "===========" << endl;
+	cout << "-----" << endl;
 	for (int i = 0; i < h; i++) {
 		for (int j = s; j < N; j++) {
 			cout << map[i][j] << " ";
@@ -29,188 +21,173 @@ void printMap() {
 		cout << endl;
 	}
 }
-
-
-int diffVal() {
+int diff() {
 	minV = 3001, maxV = 0;
 	for (int i = 0; i < N; i++) {
-		int v = map[0][i];
-		if (minV > v) minV = v;
-		if (maxV < v) maxV = v;
+		minV = min(minV, map[0][i]);
+		maxV = max(maxV, map[0][i]);
 	}
-#if DEBUG
-	cout << "maxV = " << maxV << ", minV = " << minV << endl;
-#endif
+
 	return maxV - minV;
 }
 
-void smallUpdate() {
-	for (int i = 0; i < N; i++)
+void increaseBread() {
+	for (int i = 0; i < N; i++) {
 		if (minV == map[0][i]) map[0][i]++;
-}
-
-
-void crawl() {
-	int tmpMap[100][100];
-	for (int hh = 3 ; e+h <= N; hh++, s = e, e += h, h = hh/2) {
-#if DEBUG
-		cout << "s = " << s << ", e = " << e << ", h = " << h << endl;
-		printMap();
-#endif
-
-		for (int i = 0; i < h; i++) {
-			for (int j = 0; j < h; j++) {
-				tmpMap[h - j - 1][i] = map[i][j + s];
-				if (j+s == e) continue;
-				map[i][j + s] = 0;
-			}
-		}
-
-		for (int i = 0; i < h; i++) {
-			for (int j = 0; j < h; j++) {
-				if (hh % 2)
-					map[i + 1][j + e] = tmpMap[i][j];
-				else {
-					if (i - 1 < 0) continue;
-					map[i][j + e] = tmpMap[i][j];
-				}
-			}
-		}
 	}
 }
 
-void flatting() {
-	int tmp[100];
-	int cnt = 0;
-
+void rotateMap(int sz, int s) {
 	
-	for (int j = s; j < e; j++) {
+	for (int i = 0; i < sz; i++) {
+		for (int j = 0; j < sz; j++) {
+			tmpMap[sz - j - 1][i] = map[i][j+s];
+			if (i == 0 && j+s >= e) continue;
+			map[i][j + s] = 0;
+		}
+	}
+
+}
+void crawl() {
+	int prevH = 1;
+	int hh;
+	for (hh = 3, s = 0, e = 1, h = hh / 2; h+e < N; hh++, s = e, e += h, h = hh / 2) {
+
+#if DEBUG
+		cout << "h = " << h << ", s = " << s << ", e = " << e << ", prevH = " << prevH << endl;
+		printMap();
+#endif
+		
+		rotateMap(h, s);
+		for (int i = h-prevH, i2 = 1; i < h; i++, i2++) {
+			for (int j = 0; j < h; j++) {
+				map[i2][j + e] = tmpMap[i][j];
+			}
+		}
+		prevH = h;
+	}
+}
+
+pair<int, int> mv[2] = {
+	{1,0}, {0,1}
+};
+
+void flatting() {
+	int cnt = 0;
+	for (int j = s ; j < N; j++) {
 		for (int i = 0; i < h; i++) {
 			if (i != 0 && j >= e) break;
-			tmp[cnt++] = map[i][j];
+			
+			tmpMap[0][cnt++] = map[i][j];
 			map[i][j] = 0;
 		}
 	}
-	
+
+	for (int i = 0; i < cnt; i++)
+		map[0][i] = tmpMap[0][i];
+
 	s = 0, e = 1, h = 1;
-	for (int i = 0; i < cnt; i++) {
-		map[0][i] = tmp[i];
-	}
 }
-void press() {
-	int tmpMap[100][100];
+
+void push() {
 	memcpy(tmpMap, map, sizeof(tmpMap));
-
-	for (int i = 0; i < h; i++) {
-		for (int j = s; j < N; j++) {
+	
+	for (int j = s; j < N; j++) {
+		for (int i = 0; i < h; i++) {
 			if (i != 0 && j >= e) break;
-
 			int c = tmpMap[i][j];
 			for (int x = 0; x < 2; x++) {
-				int dx = mv[x].first + i, dy = mv[x].second + j;
+				int dx = i + mv[x].first, dy = j + mv[x].second;
 				if (dx < 0 || dx >= h || dy < s || dy >= N) continue;
 				if (dx != 0 && dy >= e) continue;
-				
 				int o = tmpMap[dx][dy];
-				int diff = (o - c) / 5;
-				
-				map[dx][dy] -= diff;
+
+				int diff = (o - c)/5;
+
 				map[i][j] += diff;
+				map[dx][dy] -= diff;
 			}
 		}
 	}
 
 #if DEBUG
-	cout << "press finish" << endl;
+	cout << "push finish" << endl;
 	printMap();
 #endif
 
 	flatting();
+#if DEBUG
+	cout << "flat finish" << endl;
+	printMap();
+#endif
+
 }
 
 void doubling() {
-
-	for (int i = 0, j = N-1; i < N / 2; i++, j--) {
-		map[1][j] = map[0][i];
+	for (int i = 0; i < N / 2; i++) {
+		map[1][N-i-1] = map[0][i];
 		map[0][i] = 0;
 	}
+
 	s = N / 2;
 	h = 2;
 #if DEBUG
-	cout << "first doubling" << endl;
+	cout << "1> double finish" << endl;
 	printMap();
 #endif
-	
-	for (int i = s, j = N-1; i < (s + (N - s) / 2); i++, j--) {
 
-		map[3][j] = map[0][i];
-		map[2][j] = map[1][i];
+	for (int i = s, i2= N-1; i < N/4 + N/2; i++, i2--) {
+		map[2][i2] = map[1][i];
+		map[3][i2] = map[0][i];
 		map[0][i] = map[1][i] = 0;
 	}
-	s += ((N - s) / 2);
-	e = N;
+	s += N / 4;
 	h = 4;
-
+	e = N;
 #if DEBUG
-	cout << "second doubling" << endl;
+	cout << "2> double finish" << endl;
 	printMap();
-	cout << "s = " << s << ", e = " << e << ", h = " << h << endl;
 #endif
-
-
 }
 void run() {
-	int z = 1;
-	for (; diffVal() > K; z++) {
+	int timer = 0;
+	for (; diff() > K; timer++) {
 #if DEBUG
-		cout << "+++++ " << z << " +++++" << endl;
-#endif
-		// 밀가루 +1
-		smallUpdate();
-#if DEBUG
-		cout << "plus powder finish" << endl;
+		cout << "+++++ Timer = " << timer << " +++++" << endl;
 		printMap();
 #endif
-
-		// 도우 말기
+		// 1. 빵 도우 증가
+		increaseBread();
+#if DEBUG
+		cout << "Bread Increase Finish" << endl;
+		printMap();
+#endif
+		// 2. 도우 말기
 		crawl();
 #if DEBUG
-		cout << "crawl power finish" << endl;
-		cout << "s = " << s << ", e = " << e << ", h = " << h << endl;
+		cout << "Crawl Finish" << endl;
+		cout << "h = " << h << ", s = " << s << ", e = " << e << endl;
 		printMap();
 #endif
-		// 도우 누르기
-		press();
-#if DEBUG
-		cout << "flatting" << endl;
-		printMap();
-#endif
-		// 도우 2번 반으로 접기
+		// 3. 도우 누르기
+		push();
+		// 4. 도우 2번 반 접기
 		doubling();
-		// 도우 펴기
-		press();
-#if DEBUG
-		cout << "flatting" << endl;
-		printMap();
-#endif
+		// 5. 도우 누르기 X2
+		push();
+		//최솟값 증가
 	}
-
-	cout << z-1;
+	cout << timer;
 }
-int main(void)
-{
-
+int main(void) {
 #if DEBUGS
 	freopen("input.txt", "r", stdin);
 #endif
 
 	cin >> N >> K;
-	for (int i = 0; i < N; i++)
+	for (int i = 0; i < N; i++) {
 		cin >> map[0][i];
-
-#if DEBUG
-	printMap();
-#endif
+	}
 	run();
 	return 0;
 }
