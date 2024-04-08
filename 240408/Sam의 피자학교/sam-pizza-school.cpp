@@ -52,7 +52,7 @@ void smallUpdate() {
 
 void crawl() {
 	int tmpMap[100][100];
-	for (int hh = 3 ; h <= N-e-1; hh++, s = e, e += h, h = hh/2) {
+	for (int hh = 3 ; e+h <= N; hh++, s = e, e += h, h = hh/2) {
 #if DEBUG
 		cout << "s = " << s << ", e = " << e << ", h = " << h << endl;
 		printMap();
