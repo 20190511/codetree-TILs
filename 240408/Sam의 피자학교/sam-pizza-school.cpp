@@ -1,7 +1,7 @@
 #define DEBUG false
 #define DEBUGS false
 #define _CRT_SECURE_NO_WARNINGS
-//0930
+//0930 ~ 1038
 #include <iostream>
 #include <cstring>
 using namespace std;
