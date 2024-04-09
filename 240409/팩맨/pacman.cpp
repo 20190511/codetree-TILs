@@ -1,4 +1,4 @@
-//0916
+//0916 ~ 1030
 #define DEBUG	false
 #define DEBUGS	false
 #define _CRT_SECURE_NO_WARNINGS
