@@ -135,14 +135,15 @@ void judge() {
 #endif
 		int dom = n.dom, id = n.id;
 		nextQ[minDom].pop();
-
-		wait_problem[dom].erase(id); //waiting Queue에서 삭제
+		
+		//waiting Queue에서 삭제
+		wait_problem[dom].erase(wait_problem[dom].find(id));
 		//채점기에 올리
 
 		judger[j_idx] = dom;
 		judging_domain[dom]++;
 		domain_s[dom] = t;
-		domain_g[dom] = 1000000;
+		domain_g[dom] = 5000000;
 		wait_cnt--;
 	}
 }
