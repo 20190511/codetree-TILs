@@ -27,7 +27,8 @@ unordered_map<string, int> hashToIdx;
 int str_idx = 1, wait_cnt = 0;
 
 set<int> wait_problem[301];
-priority_queue<node, vector<node>, nodeCmp> nextQ;
+//시간초과 방지 --> domain 별로 nextQ 두기.
+priority_queue<node, vector<node>, nodeCmp> nextQ[301];
 
 int judging_domain[301];
 int judger[50001];
@@ -76,7 +77,7 @@ void init() {
 
 	//waiting Queue에 자동 삽입
 	wait_problem[a.dom].insert(a.id);
-	nextQ.push(a);
+	nextQ[a.dom].push(a);
 	wait_cnt++;
 
 }
@@ -93,7 +94,7 @@ void request() {
 	if (wait_problem[dom].find(id) != wait_problem[dom].end()) return;
 
 	wait_problem[dom].insert(id);
-	nextQ.push(n);
+	nextQ[dom].push(n);
 	wait_cnt++;
 	
 }
@@ -103,41 +104,46 @@ void judge() {
 	cin >> t;
 
 	vector<node> q;
-	while (!nextQ.empty()) {
-		node a = nextQ.top();
-		nextQ.pop();
-		int dom = a.dom, id = a.id;
-		// 이미 채점중
-		if (judging_domain[dom]) {
-			q.push_back(a);
-			continue;
-		}
-		int diff = domain_g[dom];
-		if (diff > t) {
-			q.push_back(a);
-			continue;
-		}
+	int minDom = 301, minP = N + 1, minT = 10000001;
+	for (int i = 1; i < str_idx; i++) {
+		if (!nextQ[i].empty()) {
+			node tmp = nextQ[i].top();
 
-		//채점기에 올리기
+			int dom = tmp.dom, id = tmp.id;
+
+			if (judging_domain[dom]) continue;
+			if (domain_g[dom] > t) continue;
+
+			if ((minP > tmp.p) ||
+				((minP == tmp.p) && (minT > tmp.t))) {
+				minDom = dom;
+				minP = tmp.p;
+				minT = tmp.t;
+			}
+		}
+	}
+
+	if (minDom != 301) {
 		int j_idx = nextJ();
 		if (j_idx == -1) {
-			q.push_back(a);
-			break;
+			return;
 		}
 
+		node n = nextQ[minDom].top();
+#if DEBUG
+		cout << "judge :: " << n.dom << ", " << n.id << endl;
+#endif
+		int dom = n.dom, id = n.id;
+		nextQ[minDom].pop();
+
 		wait_problem[dom].erase(id); //waiting Queue에서 삭제
-		
+		//채점기에 올리
+
 		judger[j_idx] = dom;
 		judging_domain[dom]++;
 		domain_s[dom] = t;
 		domain_g[dom] = 1000000;
 		wait_cnt--;
-		break;
-	}
-
-	while (!q.empty()) {
-		nextQ.push(q.back());
-		q.pop_back();
 	}
 }
 
