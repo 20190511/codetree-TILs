@@ -62,14 +62,7 @@ void comm(int nx, int ny, int sanN, int dir) {
 	}
 
 	int cx = nx, cy = ny, curSan = sanN;
-	while (map[cx][cy]) {
-		if (CHECK(cx, cy, N)) {
-			san[curSan].x = san[curSan].y = san[curSan].state = -1;
-			totalSanta--;
-			return;
-		}
-
-
+	while (!CHECK(cx,cy,N) && map[cx][cy]) {
 		san[curSan].x = cx;
 		san[curSan].y = cy;
 
@@ -80,10 +73,17 @@ void comm(int nx, int ny, int sanN, int dir) {
 		cx += mv[dir].first;
 		cy += mv[dir].second;
 	}
+	if (CHECK(cx, cy, N)) {
+		san[curSan].x = san[curSan].y = san[curSan].state = -1;
+		totalSanta--;
+		return;
+	}
+	else {
+		map[cx][cy] = curSan;
+		san[curSan].x = cx;
+		san[curSan].y = cy;
+	}
 
-	map[cx][cy] = curSan;
-	san[curSan].x = cx;
-	san[curSan].y = cy;
 }
 
 
