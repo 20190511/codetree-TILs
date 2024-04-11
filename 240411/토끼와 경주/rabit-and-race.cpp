@@ -7,6 +7,7 @@
 #include <queue>
 #include <unordered_map>
 using namespace std;
+typedef long long ll;
 struct rabbit {
 	int x;
 	int y;
@@ -14,7 +15,7 @@ struct rabbit {
 	int d;
 	int pid;
 	int idx;
-	int score;
+	ll score;
 
 	bool operator>(const rabbit& t) {
 		if ((x + y) != (t.x + t.y)) return (x + y) > (t.x + t.y);
@@ -42,7 +43,7 @@ int totalRabbit = 1;
 rabbit obj[2001];
 priority_queue<rabbit, vector<rabbit>, cmp> rabbitQ;
 int Q, N, M, P;
-int all_add = 0;
+long long all_add = 0;
 pair<int, int> mv[4] = {
 	{1,0}, {0,1}, {-1,0}, {0,-1}
 };
@@ -94,7 +95,8 @@ void init() {
 }
 
 void race() {
-	int k, s;
+	int k;
+	ll s;
 	cin >> k >> s;
 	rabbit bestRabbit;
 	bestRabbit.x = -1;
@@ -138,7 +140,7 @@ void race() {
 		cout << "k = " << k << endl;
 		cout << "Rabbit : " << r.pid << " --> " << r.x << ", " << r.y << endl;
 #endif
-		int score = r.x + r.y + 2;
+		ll score = (ll)r.x + (ll)r.y + 2;
 		all_add += score;
 		r.score -= score;
 		rabbitQ.push(r);
@@ -160,7 +162,7 @@ void change() {
 	obj[idx].d *= l;
 }
 void totalScore() {
-	int maxScore = 0;
+	ll maxScore = 0;
 	while (!rabbitQ.empty()) {
 		maxScore = max(obj[rabbitQ.top().idx].score + all_add, maxScore);
 		rabbitQ.pop();
@@ -195,6 +197,6 @@ int main(void) {
 		else if (cmd == 400) {
 			totalScore();
 		}
-	}
+		}
 	return 0;
 }
