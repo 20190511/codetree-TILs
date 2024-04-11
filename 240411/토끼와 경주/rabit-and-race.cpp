@@ -1,4 +1,5 @@
 //0852 ~ 1100
+// 정수 범위 long long 벗어날 수 있음에 유의
 #define DEBUG	false
 #define	DEBUGS	false
 #define _CRT_SECURE_NO_WARNINGS
