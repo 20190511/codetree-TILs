@@ -5,6 +5,7 @@
 #include <iostream>
 #include <vector>
 #include <queue>
+#include <unordered_map>
 using namespace std;
 struct rabbit {
 	int x;
@@ -12,10 +13,11 @@ struct rabbit {
 	int jcnt;
 	int d;
 	int pid;
+	int idx;
 	int score;
 
 	bool operator>(const rabbit& t) {
-		if ((x + y) != (t.x + t.y)) return (x+y) > (t.x+t.y);
+		if ((x + y) != (t.x + t.y)) return (x + y) > (t.x + t.y);
 		if (x != t.x) return x > t.x;
 		if (y != t.y) return y > t.y;
 		return pid > t.pid;
@@ -35,6 +37,8 @@ struct cmp {
 	}
 };
 
+unordered_map<int, int> pidToIdx;
+int totalRabbit = 1;
 rabbit obj[2001];
 priority_queue<rabbit, vector<rabbit>, cmp> rabbitQ;
 int Q, N, M, P;
@@ -73,7 +77,7 @@ int reDist(int sz, int cur, int d, int dir) {
 			cur = sz - 1;
 		}
 	}
-	return cur + d*dir;
+	return cur + d * dir;
 }
 
 void init() {
@@ -81,9 +85,11 @@ void init() {
 	int pid, d;
 	for (int i = 1; i <= P; i++) {
 		cin >> pid >> d;
-		obj[pid].pid = pid;
-		obj[pid].d = d;
-		rabbitQ.push(obj[pid]);
+		pidToIdx[pid] = totalRabbit++;
+		obj[i].pid = pid;
+		obj[i].idx = i;
+		obj[i].d = d;
+		rabbitQ.push(obj[i]);
 	}
 }
 
@@ -97,9 +103,9 @@ void race() {
 
 	for (int i = 0; i < k; i++) {
 		rabbit rr = rabbitQ.top();
-		rabbit& r = obj[rr.pid];
+		rabbit& r = obj[rr.idx];
 		rabbitQ.pop();
-		int cx = r.x, cy = r.y, cd = obj[r.pid].d;
+		int cx = r.x, cy = r.y, cd = r.d;
 		int savedX = -1, savedY = -1;
 		for (int i = 0; i < 4; i++) {
 			int dx, dy;
@@ -119,7 +125,7 @@ void race() {
 			if (savedSum < dxdySum ||
 				((savedSum == dxdySum) && (savedX < dx)) ||
 				((savedSum == dxdySum) && (savedX == dx) && (savedY < dy))) {
-				
+
 				savedX = dx;
 				savedY = dy;
 			}
@@ -144,18 +150,19 @@ void race() {
 #if DEBUG
 	cout << "best rabbit = " << bestRabbit.pid << endl;
 #endif
-	obj[bestRabbit.pid].score += s;
+	obj[bestRabbit.idx].score += s;
 
 }
 void change() {
 	int pid, l;
 	cin >> pid >> l;
-	obj[pid].d *= l;
+	int idx = pidToIdx[pid];
+	obj[idx].d *= l;
 }
 void totalScore() {
 	int maxScore = 0;
 	while (!rabbitQ.empty()) {
-		maxScore = max(obj[rabbitQ.top().pid].score + all_add, maxScore);
+		maxScore = max(obj[rabbitQ.top().idx].score + all_add, maxScore);
 		rabbitQ.pop();
 	}
 	cout << maxScore;
@@ -164,7 +171,7 @@ int main(void) {
 #if DEBUGS
 	freopen("test.txt", "r", stdin);
 #endif
-	
+
 	cin >> Q;
 	int cmd;
 	while (Q--) {
@@ -176,9 +183,9 @@ int main(void) {
 			race();
 #if DEBUG
 			cout << "Race Score" << endl;
-			for (int x = 1; x <= 2000; x++) {
-				if (!obj[x].pid) continue;
-				cout <<"pid = "<<x<<" -->"<< obj[x].score + all_add << endl;
+			for (int x = 1; x <= P; x++) {
+				if (!obj[x].idx) continue;
+				cout << "pid = " << x << " -->" << obj[x].score + all_add << endl;
 			}
 #endif
 		}
