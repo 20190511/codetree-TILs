@@ -37,6 +37,9 @@ int d_g[301];
 pair<int, int> stringParser(string s) {
 	size_t idx = s.find('/');
 	string dom = s.substr(0, idx);
+#if DEBUG
+	cout << idx << ", " << dom << endl;
+#endif
 	int id = atoi(s.substr(idx+1).c_str());
 	
 	if (hashIdx.find(dom) == hashIdx.end()) {
@@ -130,6 +133,7 @@ void judge() {
 #endif
 	nextQ[n.domain].pop();
 	d_s[n.domain] = t;
+	d_g[n.domain] = 10000001;
 	judging_dom.insert(n.domain);
 	
 	int n_judge = judgerQ.top();
