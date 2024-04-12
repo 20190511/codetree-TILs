@@ -56,7 +56,7 @@ void init() {
 	string url;
 	cin >> N >> url;
 #if DEBUG
-	cout << "100 " << N << " " << N << " " << url << endl;
+	cout << "100 " << N << " " << url << endl;
 #endif
 	for (int i = 1; i <= N; i++) {
 		judgerQ.push(i);
@@ -161,7 +161,7 @@ void finish() {
 	}
 
 	int cur = judging[id];
-	judging[cur] = 0;
+	judging[id] = 0;
 	judging_dom.erase(cur);
 	judgerQ.push(id);
 	d_g[cur] = (t- d_s[cur]) * 3 + d_s[cur];
