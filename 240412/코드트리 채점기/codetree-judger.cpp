@@ -27,7 +27,7 @@ unordered_map<string, int> hashIdx;
 int curHashIdx = 1;
 priority_queue<int, vector<int>, greater<int>> judgerQ;
 priority_queue<node> nextQ[301];
-int judging[301]; // 채점중인 domain 번호
+int judging[50001]; // 채점중인 domain 번호
 set<int> judging_dom;
 
 set<int> domainList[301]; //wait domain list
@@ -138,6 +138,9 @@ void judge() {
 	
 	int n_judge = judgerQ.top();
 	judgerQ.pop();
+#if DEBUG
+	cout << n_judge << "--"<<n.domain<<endl;
+#endif
 	judging[n_judge] = n.domain;
 
 	//wait Queue에서 빼기
