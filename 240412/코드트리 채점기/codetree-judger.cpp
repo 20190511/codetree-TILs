@@ -1,182 +1,177 @@
-//1117 : 복습
-#define DEBUG	false
-#define DEBUGS	false
-#define  _CRT_SECURE_NO_WARNINGS
+//1626
+#define DEBUG false
+#define DEBUGS false
+#define _CRT_SECURE_NO_WARNINGS
 #include <iostream>
 #include <vector>
+#include <deque>
+#include <unordered_map>
 #include <set>
 #include <queue>
-#include <unordered_map>
 using namespace std;
-
+int N, Q;
+int wait_cnt = 0;
 struct node {
-	int dom;
-	int id;
-	int p;
 	int t;
-};
+	int p;
+	int domain;
+	int id;
 
-struct nodeCmp {
-	bool operator() (node a, node b) {
-		if (a.p == b.p)
-			return a.t > b.t;
-		return a.p > b.p;
+	bool operator<(node a) const {
+		if (p != a.p)
+			return p > a.p;
+		return t > a.t;
 	}
 };
-unordered_map<string, int> hashToIdx;
-int str_idx = 1, wait_cnt = 0;
+unordered_map<string, int> hashIdx;
+int curHashIdx = 1;
+priority_queue<int, vector<int>, greater<int>> judgerQ;
+priority_queue<node> nextQ[301];
+int judging[301]; // 채점중인 domain 번호
+set<int> judging_dom;
 
-set<int> wait_problem[301];
-//시간초과 방지 --> domain 별로 nextQ 두기.
-priority_queue<node, vector<node>, nodeCmp> nextQ[301];
+set<int> domainList[301]; //wait domain list
+int d_s[301];
+int d_g[301];
 
-int judging_domain[301];
-int judger[50001];
-priority_queue<int, vector<int>, greater<int>> j_idxQ;
-int domain_s[301];
-int domain_e[301];
-int domain_g[301];
-int N, Q;
-
-
-pair<int, int> urlParser(string s) {
-	size_t i = s.find('/');
-	string domain = s.substr(0, i);
-	string id = s.substr(i + 1);
-
-	if (hashToIdx.find(domain) == hashToIdx.end()) {
-		hashToIdx[domain] = str_idx;
-		str_idx++;
+pair<int, int> stringParser(string s) {
+	size_t idx = s.find('/');
+	string dom = s.substr(0, idx);
+	int id = atoi(s.substr(idx+1).c_str());
+	
+	if (hashIdx.find(dom) == hashIdx.end()) {
+		hashIdx[dom] = curHashIdx++;
 	}
 
 #if DEBUG
-	cout << s << "-->" << hashToIdx[domain] << " ," << id << endl;
+	cout << s << " --> " << "{" << hashIdx[dom] << " , " << id<< "}" << endl;
 #endif
-	return { hashToIdx[domain], atoi(id.c_str()) };
+	return { hashIdx[dom], id };
 }
 
-int nextJ() {
-	if (j_idxQ.empty()) return -1;
-
-	int n = j_idxQ.top();
-	j_idxQ.pop();
-	return n;
-}
 void init() {
 	string url;
 	cin >> N >> url;
-
-	node a;
-	pair<int, int> tmp = urlParser(url);
-
-	a.dom = tmp.first, a.id = tmp.second;
-	a.t = 0, a.p = 1;
-
-	for (int i = 1; i <= N; i++)
-		j_idxQ.push(i);
-
-	//waiting Queue에 자동 삽입
-	wait_problem[a.dom].insert(a.id);
-	nextQ[a.dom].push(a);
+#if DEBUG
+	cout << "100 " << N << " " << N << " " << url << endl;
+#endif
+	for (int i = 1; i <= N; i++) {
+		judgerQ.push(i);
+	}
+	node init;
+	pair<int, int> urlSet = stringParser(url);
+	init.p = 1, init.t = 0, init.domain = urlSet.first, init.id = urlSet.second;
+	nextQ[1].push(init);
+	domainList[1].insert(urlSet.second);
 	wait_cnt++;
+
+#if DEBUG
+#endif
 
 }
-
 void request() {
+	node news;
 	string url;
-	node n;
-	cin >> n.t >> n.p >> url;
+	cin >> news.t >> news.p >> url;
 #if DEBUG
-	cout << "reqeust :: " << n.t << ", priority = " << n.p << ", url = " << url << endl;
+	cout << "200 " << news.t << " " << news.p << " " << url << endl;
 #endif
-	pair<int, int> tmp = urlParser(url);
-	n.dom = tmp.first, n.id = tmp.second;
-	int dom = n.dom, id = n.id;
+	pair<int, int> sets = stringParser(url);
+	news.domain = sets.first, news.id = sets.second;
 
-	//추가
-	if (wait_problem[dom].find(id) != wait_problem[dom].end()) return;
-
-	wait_problem[dom].insert(id);
-	nextQ[dom].push(n);
+	if (domainList[news.domain].find(news.id) != domainList[news.domain].end()) {
+#if DEBUG
+		cout << url << " is in wait queue" << endl;
+#endif
+		return;
+	}
+	
+#if DEBUG
+	cout << "request :: " << url << " waited" << endl;
+#endif
+	domainList[news.domain].insert(news.id);
+	nextQ[news.domain].push(news);
 	wait_cnt++;
-
 }
 
 void judge() {
 	int t;
 	cin >> t;
-	vector<node> q;
-	int minDom = 0, minP = N + 1, minT = 10000001;
-	for (int i = 1; i < str_idx; i++) {
-		if (!nextQ[i].empty()) {
-			node tmp = nextQ[i].top();
-
-			int dom = tmp.dom, id = tmp.id;
-
-			if (judging_domain[dom]) continue;
-			if (domain_g[dom] > t) continue;
-
-			if ((minP > tmp.p) ||
-				((minP == tmp.p) && (minT > tmp.t))) {
-				minDom = dom;
-				minP = tmp.p;
-				minT = tmp.t;
-			}
-		}
-	}
-
-	if (minDom) {
-		int j_idx = nextJ();
-		if (j_idx == -1) {
-			return;
-		}
-
-		node n = nextQ[minDom].top();
 #if DEBUG
-		cout << "judge :: t = " <<t<<" --> "<< n.dom << ", " << n.id << endl;
+	cout << "300 " << t << endl;
 #endif
-		int dom = n.dom, id = n.id;
-		nextQ[minDom].pop();
-
-		//waiting Queue에서 삭제
-		wait_problem[dom].erase(wait_problem[dom].find(id));
-		//채점기에 올리
-
-		judger[j_idx] = dom;
-		judging_domain[dom]++;
-		domain_s[dom] = t;
-		domain_g[dom] = 5000000;
-		wait_cnt--;
+	if (judgerQ.empty()) {
+#if DEBUG
+		cout << "judger is full\n";
+#endif
+		return;
 	}
+
+	node n;
+	n.p = 50001, n.t = 1000001;
+	for (int i = 1; i <= 300; i++) {
+		if (nextQ[i].empty()) continue;
+		if (judging_dom.find(i) != judging_dom.end()) continue;
+		if (d_g[i] > t) continue;
+
+		node tmp = nextQ[i].top();
+		if (tmp.p < n.p || (tmp.p == n.p && tmp.t < n.t)) {
+			n.domain = tmp.domain;
+			n.p = tmp.p;
+			n.t = tmp.t;
+			n.id = tmp.id;
+		}
+	}
+
+	if (n.p == 50001) return;
+	
+#if DEBUG
+	cout << n.domain << ", " << n.id << " --> judge start\n";
+#endif
+	nextQ[n.domain].pop();
+	d_s[n.domain] = t;
+	judging_dom.insert(n.domain);
+	
+	int n_judge = judgerQ.top();
+	judgerQ.pop();
+	judging[n_judge] = n.domain;
+
+	//wait Queue에서 빼기
+	domainList[n.domain].erase(n.id);
+
+	wait_cnt--;
+
 }
 
 void finish() {
 	int t, id;
 	cin >> t >> id;
-	if (!judger[id]) return;
-
-	j_idxQ.push(id);
-	int dom = judger[id];
-	judger[id] = 0;
-	judging_domain[dom]--;
-	domain_g[dom] = (t - domain_s[dom]) * 3 + domain_s[dom];
 #if DEBUG
-	cout << "domain id :: " << dom << " --> gap time : " << domain_g[dom] << endl;
+	cout << "400 " << t << " " << id << endl;
+#endif
+	if (!judging[id]) {
+#if DEBUG
+		cout << "id :: " << id << " is resting already" << endl;
+#endif
+		return;
+	}
+
+	int cur = judging[id];
+	judging[cur] = 0;
+	judging_dom.erase(cur);
+	judgerQ.push(id);
+	d_g[cur] = (t- d_s[cur]) * 3 + d_s[cur];
+#if DEBUG
+	cout << "Finish :: " << cur << ", gap == "<< d_g[cur] << endl;
 #endif
 }
-void printCnt() {
-	int t;
-	cin >> t;
-	cout << wait_cnt << endl;
-}
-int main(void)
-{
-#if DEBUGS
+int main(void) {
+#if DEBUG
 	freopen("test.txt", "r", stdin);
 #endif
 	cin >> Q;
 	int cmd;
-	for (int i = 1; Q--; i++) {
+	for (int i = 1; i <= Q; i++) {
 #if DEBUG
 		cout << "+++++ " << i << " +++++" << endl;
 #endif
@@ -194,8 +189,11 @@ int main(void)
 			finish();
 		}
 		else if (cmd == 500) {
-			printCnt();
+			int t;
+			cin >> t;
+			cout << wait_cnt << endl;
 		}
 	}
+
 	return 0;
 }
