@@ -66,9 +66,9 @@ void init() {
 	}
 }
 void down() {
-	long long max_cnt;
+	int max_cnt;
 	cin >> max_cnt;
-	int sum_weight = 0;
+	long long sum_weight = 0;
 	for (int i = 1; i <= M; i++) {
 		if (!belt_status[i]) continue;
 		int head = belt[i][0];
@@ -238,6 +238,7 @@ void bad() {
 }
 int main(void)
 {
+	cin.tie(0)->sync_with_stdio(false);
 #if DEBUGS
 	freopen("input.txt", "r", stdin);
 #endif
