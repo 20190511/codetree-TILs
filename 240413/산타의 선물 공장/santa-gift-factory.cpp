@@ -1,4 +1,11 @@
-//1110
+//1110 ~ 1400
+/**
+ --> 실수 요인들이 좀 많음
+ 1. confirm 에서 코드 배끼다가 erase를 실수로 해버리는 실수
+ 2. long long 체킹을 제대로 해야됨 -> 10억 * 10 = 100억이되서 long long이 필요함.
+ 3. belt가 1부터 시작한다면.. belt = (*belt + 1)%M 로직은 안됨 --> 중요함(1부터 시작해서 그럼..)
+ 4. 연결리스트 연결 파트는 실수가 없었음.
+*/
 #define DEBUGS	false
 #define DEBUG	false
 #define _CRT_SECURE_NO_WARNINGS
