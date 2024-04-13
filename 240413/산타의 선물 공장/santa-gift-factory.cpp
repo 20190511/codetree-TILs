@@ -77,16 +77,17 @@ void down() {
 			cout << "belt [" << i << "] down :: " << head << endl;
 #endif
 			sum_weight += weight[head];
+			belt_item[i].erase(head);
 			if (i_next[head] == -1) {
 				belt[i][0] = belt[i][1] = -1;
 				i_next[head] = i_prev[head] = -1;
 				continue;
 			}
-
-			belt[i][0] = i_next[head];
-			i_prev[belt[i][0]] = -1;
-			i_next[head] = i_prev[head] = -1;
-			belt_item[i].erase(head);
+			else {
+				belt[i][0] = i_next[head];
+				i_prev[belt[i][0]] = -1;
+				i_next[head] = i_prev[head] = -1;
+			}
 		}
 		else {
 #if DEBUG
