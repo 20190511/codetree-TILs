@@ -50,6 +50,7 @@ void init() {
 		if (idx == 0) {
 			belt[belt_num][0] = belt[belt_num][1] = i;
 			i_prev[i] = -1;
+			i_next[i] = -1;
 		}
 		else {
 			int cur_tail = belt[belt_num][1];
@@ -65,7 +66,7 @@ void init() {
 	}
 }
 void down() {
-	int max_cnt;
+	long long max_cnt;
 	cin >> max_cnt;
 	int sum_weight = 0;
 	for (int i = 1; i <= M; i++) {
@@ -76,7 +77,7 @@ void down() {
 #if DEBUG
 			cout << "belt [" << i << "] down :: " << head << endl;
 #endif
-			sum_weight += weight[head];
+			sum_weight += (long long) weight[head];
 			belt_item[i].erase(head);
 			if (i_next[head] == -1) {
 				belt[i][0] = belt[i][1] = -1;
@@ -177,7 +178,6 @@ void confirm() {
 
 		set<int>::iterator it = belt_item[i].find(idx);
 		if (it != belt_item[i].end()) {
-			belt_item[i].erase(it);
 
 			int prev = i_prev[idx];
 			if (prev != -1) {
