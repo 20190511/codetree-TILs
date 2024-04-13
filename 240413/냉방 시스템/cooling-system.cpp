@@ -1,4 +1,8 @@
-//0846
+//0846 ~ 1107
+/*
+	CHECK() 파트 실수로 40분 날림 <-- CHECK 파트 적을 때 신중해서 할 것.
+	--> + 조건 중 -1 부분 못 본 실수 존재
+*/
 #define DEBUG false
 #define DEBUGS false
 #define _CRT_SECURE_NO_WARNINGS
