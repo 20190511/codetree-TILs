@@ -209,7 +209,8 @@ void bad() {
 		return;
 	}
 
-	for (int i = (b_num + 1) % M, cnt = 0; cnt < M - 1; cnt++, i = (i + 1) % M) {
+	for (int i = (b_num + 1) % (M+1), cnt = 0; cnt < M + 1; cnt++, i = (i + 1) % (M+1)) {
+		if (i == 0 || i == b_num) continue;
 		if (belt_status[i]) {
 			int cur_head = belt[b_num][0];
 			int next_tail = belt[i][1];
