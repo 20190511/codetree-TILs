@@ -1,5 +1,14 @@
-// 반복 연습 1회차  : 0908 (이해:22)
+// 반복 연습 1회차  : 0908 (이해:22) ~ 11:38
 /// map 1,1 시작
+/**
+	2시간 30분 걸린 쉽지않은 문제
+	-> 실수 는 빠르게 잡았는데 실수한 부분들
+
+	1. if (nx <= 0 || nx > N || ny <= 0 || ny > N) continue 에서 nx, ny 대신 nx nx 로 적는 실수.
+	2. 문제조건 중 가만히 있어야되는데 가만히 있지않고 가버린 실수
+	---
+	나머지는 침착하게 요소들을 디버깅할 수 있도록 짜서 시간은 조금 더 걸리지만 안전하게 풀이함.
+*/
 #define _CRT_SECURE_NO_WARNINGS
 #include <iostream>
 #include <vector>
@@ -113,7 +122,7 @@ void interect(int num, int p, int dirX, int dirY) {
 			q_list.pop_back();
 			
 			int newX = santa[s_num].x + dirX, newY = santa[s_num].y + dirY;
-			if (newX <= 0 || newX > N || newX <= 0 || newX > N) {
+			if (newX <= 0 || newX > N || newY <= 0 || newY > N) {
 				dieSanta(s_num);
 				continue;
 			}
