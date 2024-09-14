@@ -36,14 +36,10 @@ void printMap() {
 	}
 	for (int i = 1; i <= L; i++) {
 		for (int j = 1; j <= L; j++) {
-			cout << map[i][j] << " ";
-		}
-		cout << endl;
-	}
-	cout << "-------" << endl;
-	for (int i = 1; i <= L; i++) {
-		for (int j = 1; j <= L; j++) {
-			cout << gmap[i][j] << " ";
+			if (!gmap[i][j])
+				cout << " ("<<map[i][j]<<") ";
+			else
+				cout << gmap[i][j] << "(" << map[i][j] << ") ";
 		}
 		cout << endl;
 	}
@@ -54,6 +50,8 @@ void move(int num, int dir) {
 	vector<int> manS;
 	vector<int> q;
 
+	bool manCheck[41] = { 0, };
+	manCheck[num] = true;
 
 	//stack 넣기
 	q.push_back(num);
@@ -72,8 +70,10 @@ void move(int num, int dir) {
 				if (gmap[dx][dy] == n) continue;
 
 				int curMan = gmap[dx][dy];
+				if (manCheck[curMan]) continue;
 
 				if (curMan) {
+					manCheck[curMan] = true;
 					manS.push_back(curMan);
 					q.push_back(curMan);
 				}
@@ -153,20 +153,23 @@ int main(void)
 		cin >> vec[i][0] >> vec[i][1];
 	}
 
-#if DEBUGS
+#if DEBUG
 	printMap();
 #endif
 
 	for (int num = 0; num < Q; num++) {
+#if DEBUG
+		if (num == 5)
+			cout << "in" << endl;
+#endif
 		int n = vec[num][0], dir = vec[num][1];
 		move(n, dir);
 
 
 #if DEBUG
-		if (num == 2) {
-			printMap();
-			break;
-		}
+		cout << "---- [ " << num + 1 << "] ----" << endl;
+		cout << " move : " << n << ", dir =" << dir << endl;
+		printMap();
 #endif
 	}
 
