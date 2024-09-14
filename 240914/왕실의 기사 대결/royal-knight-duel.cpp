@@ -1,4 +1,5 @@
-//1415 ~ 1438(모니터이슈 5분)
+//1415 ~ 1438(모니터이슈 5분) ~ 1540
+// 1시간 20분
 #define _CRT_SECURE_NO_WARNINGS
 #include <iostream>
 #include <vector>
@@ -183,3 +184,4 @@ int main(void)
 	
 	return 0;
 }
+
