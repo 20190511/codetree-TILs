@@ -1,29 +1,32 @@
+#define _CRT_SECURE_NO_WARNINGS
 #include <iostream>
 using namespace std;
 
-int n,S;
+int n, S;
 int vec[100001];
 int main() {
-    cin>>n>>S;
-    for (int i = 0 ; i < n ; i++)
-        cin>>vec[i];
+    cin >> n >> S;
+    for (int i = 0; i < n; i++)
+        cin >> vec[i];
 
-    int s=0, e=0, tmpSum = 0, minLen = 100001;
-    while (s < n) {
+    int s = 0, e = 0, tmpSum = vec[e], minLen = 100001;
+    while (s < n && e < n) {
         if (tmpSum < S) {
-            tmpSum += vec[e];
             e++;
-        } else {
+            tmpSum += vec[e];
+        }
+        else {
             if (tmpSum >= S) {
-                minLen = min(e-s, minLen);
+                //cout << "e=" << e << ", s=" << s << endl;
+                minLen = min(e - s + 1, minLen);
             }
             if (s == e) e++;
             tmpSum -= vec[s];
             s++;
-                        
+
         }
     }
-    cout<<minLen;
+    cout << minLen;
     // 여기에 코드를 작성해주세요.
     return 0;
 }
