@@ -26,6 +26,7 @@ int main() {
 
         }
     }
+    minLen = minLen == 100001 ? -1 : minLen;
     cout << minLen;
     // 여기에 코드를 작성해주세요.
     return 0;
