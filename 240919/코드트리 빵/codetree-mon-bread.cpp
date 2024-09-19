@@ -73,7 +73,7 @@ void findCamp(int num) {
 
 			if (shortest < curdist + 1) continue;
 
-			if (camp[dx][dy] && (rx > dx || ((rx == dy) && ry > dy))) {
+			if (camp[dx][dy] && (rx > dx || ((rx == dx) && ry > dy))) {
 				rx = dx, ry = dy;
 				shortest = curdist + 1;
 			}
