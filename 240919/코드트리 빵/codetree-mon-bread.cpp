@@ -1,4 +1,4 @@
-//1014 -> 27
+//1014 -> 27 ~ 11:40
 #define _CRT_SECURE_NO_WARNINGS
 #define DEBUG false
 #include <iostream>
@@ -54,35 +54,40 @@ void printMap() {
 
 
 void findCamp(int num) {
-	bool v[16][16] = { 0, };
+	int v[16][16] = { 0, };
 	queue<pair<int, int>> q;
 	
+	int shortest = 16 * 16;
 	int cx = shop[num].first, cy = shop[num].second;
 	q.push({ cx, cy });
 	v[cx][cy] = true;
 
+	int rx=N, ry=N;
 	while (!q.empty()) {
 		cx = q.front().first, cy = q.front().second;
+		int curdist = v[cx][cy];
 		q.pop();
 		for (int i = 0; i < 4; i++) {
 			int dx = cx + mv[i].first, dy = cy + mv[i].second;
 			if (dx < 0 || dx >= N || dy < 0 || dy >= N || block[dx][dy] || v[dx][dy]) continue;
 
-			if (camp[dx][dy]) {
-#if DEBUG
-				cout << "num=" << num << " camp (" << dx << ", " << dy << ")" << endl;
-#endif
+			if (shortest < curdist + 1) continue;
 
-				block[dx][dy] = true;
-				man[num] = { dx, dy };
-				map[dx][dy] = num;
-				return;
+			if (camp[dx][dy] && (rx > dx || ((rx == dy) && ry > dy))) {
+				rx = dx, ry = dy;
+				shortest = curdist + 1;
 			}
-
 			q.push({ dx,dy });
-			v[dx][dy] = true;
+			v[dx][dy] = curdist + 1;
 		}
 	}
+
+#if DEBUG
+	cout << "num=" << num << " camp (" << rx << ", " << ry << ")" << endl;
+#endif
+	block[rx][ry] = true;
+	man[num] = { rx, ry };
+	map[rx][ry] = num;
 
 }
 
