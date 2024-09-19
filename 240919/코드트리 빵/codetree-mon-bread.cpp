@@ -16,6 +16,7 @@ pair<int, int> mv[4] = {
 };
 pair<int, int> shop[31], man[31];
 
+queue<int> dieMan;
 
 void printMapTmp(int dmap[16][16]) {
 	for (int i = 0; i < N; i++) {
@@ -148,7 +149,8 @@ void go(int num) {
 		man[num] = { -1, -1 };
 		map[ox][oy] = -num;
 
-		block[ox][oy] = true;
+		//block[ox][oy] = true;
+		dieMan.push(num);
 		manStop[num] = true;
 		stopCnt++;
 		return;
@@ -197,6 +199,21 @@ int main(void)
 			if (manStop[m] || m >= i) continue;
 			go(m);
 		}
+
+		while (!dieMan.empty()) {
+			int dieManNum = dieMan.front();
+			dieMan.pop();
+
+			int dieX = shop[dieManNum].first, dieY = shop[dieManNum].second;
+			block[dieX][dieY] = true;
+		}
+		/*
+		for (int m = 1; m <= M; m++) {
+			if (manStop[m] && !block[shop[m].first][shop[m].second]) {
+				block[shop[m].first][shop[m].second] = true;
+			}
+		}
+		*/
 
 		if (stopCnt == M) {
 			cout << i;
