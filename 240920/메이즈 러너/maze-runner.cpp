@@ -6,7 +6,7 @@
 * 
 * (회전 문제는 조금 더 유형정리를 해둘 필요가 있음)
 */
-#define DEBUG true
+#define DEBUG false
 #define _CRT_SECURE_NO_WARNINGS
 #include <iostream>
 #include <vector>
