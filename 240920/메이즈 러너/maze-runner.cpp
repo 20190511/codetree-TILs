@@ -1,5 +1,12 @@
-//1003
-#define DEBUG false
+//1003 ~ 1158
+/*
+* 회전 문제 고찰 -> 1,1 좌표 시작인 경우 평행 이동 시 시작점 좌표에 -1씩 해주고 해야함.
+* + 그리고 for (int i = 1 ; i <= r ; i++) 형태로 해야 가능함.
+* 
+* 
+* (회전 문제는 조금 더 유형정리를 해둘 필요가 있음)
+*/
+#define DEBUG true
 #define _CRT_SECURE_NO_WARNINGS
 #include <iostream>
 #include <vector>
