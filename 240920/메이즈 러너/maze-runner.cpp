@@ -9,9 +9,7 @@ using namespace std;
 
 
 int calDist(pair<int, int> a, pair<int, int> b) {
-	int xs = a.first < b.first ? b.first - a.first : a.first - b.first;
-	int ys = a.second < b.second ? b.second - a.second : a.second - b.second;
-	return xs + ys;
+	return abs(a.first-b.first) + abs(a.second-b.second);
 }
 
 struct man {
@@ -25,6 +23,7 @@ struct man {
 
 int N, M, K;
 int map[11][11];
+int exManCnt = 0;
 pair<int, int> door, mv[4] = {
 	{-1,0}, {1,0}, {0,-1}, {0,1}
 };
@@ -81,6 +80,7 @@ void moves(int num) {
 		mans[num].x = 0;
 		mans[num].y = 0;
 		mans[num].exits = true;
+		exManCnt++;
 		return;
 	}
 
@@ -224,9 +224,12 @@ int main(void)
 			if (mans[m].exits) continue;
 			moves(m);
 		}
+
 #if DEBUG
 		printMap();
 #endif
+		if (exManCnt == M)
+			break;
 		//rotate
 		rotate();
 	}
