@@ -1,5 +1,6 @@
 #define  _CRT_SECURE_NO_WARNINGS
-#define DEBUG false
+#define DEBUGS false
+#define DEBUG  false
 typedef long long ll;
 
 //0911 ~ 1124 (실패)
@@ -31,8 +32,8 @@ struct rabbit {
 		if (count != b.count)
 			return count > b.count;
 
-		if (x + y != (b.x + b.y))
-			return x + y > (b.x + b.y);
+		if ((x + y) != (b.x + b.y))
+			return (x + y) > (b.x + b.y);
 		
 		if (x != b.x)
 			return x > b.x;
@@ -201,8 +202,8 @@ void move(int qq) {
 }
 
 
-#define DEBUGS false
-#if DEBUGS
+#define DEBUGSS false
+#if DEBUGSS
 int main(void) {
 	N = 3, M = 5;
 	int x = 3, y = 5;
@@ -221,7 +222,7 @@ int main(void) {
 }
 #else
 int main(void) {
-#if DEBUG
+#if DEBUGS
 	freopen("q.txt", "r", stdin);
 #endif
 
@@ -264,9 +265,9 @@ int main(void) {
 			for (int i = 1; i < total; i++) {
 				if (rbt[i].lastTurn != QQ) continue;
 				if ((rbt[i].x + rbt[i].y) < (rx + ry)) continue;
-				if (rbt[i].x < rx) continue;
-				if (rbt[i].y < ry) continue;
-				if (rbt[i].pid < rpid) continue;
+				if (((rbt[i].x + rbt[i].y) == (rx+ry)) && (rbt[i].x < rx)) continue;
+				if (((rbt[i].x + rbt[i].y) == (rx+ry)) && (rbt[i].x == rx) && (rbt[i].y < ry)) continue;
+				if (((rbt[i].x + rbt[i].y) == (rx+ry)) && (rbt[i].x == rx) && (rbt[i].y == ry) && (rbt[i].pid < rpid)) continue;
 
 				rx = rbt[i].x;
 				ry = rbt[i].y;
@@ -287,7 +288,13 @@ int main(void) {
 #endif
 		}
 		else {
+            
 			ll maxScore = 0;
+            #if DEBUGS
+            for (int i = 1 ; i  < total ; i++) {
+                cout<<rbt[i].pid << "->"<<rbt[i].score<<endl;
+            }
+            #endif
 			for (int i = 1; i < total; i++) {
 				maxScore = max(maxScore, rbt[i].score);
 			}
