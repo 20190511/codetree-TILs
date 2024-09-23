@@ -1,7 +1,8 @@
 #define  _CRT_SECURE_NO_WARNINGS
 #define DEBUG false
+typedef long long ll;
 
-//0911
+//0911 ~ 1124 (실패)
 /// move 로직이 좀 어려움
 #include <iostream>
 #include <unordered_map>
@@ -21,10 +22,11 @@ struct rabbit {
 	int count;
 	int dist;
 	int pid;
-	int score;
+	int lastTurn;
+	ll score;
 	int idx;
 	
-	rabbit(bool select=false ,int x=0, int y=0, int count=0, int dist=0, int pid=0, int score=0, int idx=0) : x(x), y(y), count(count), dist(dist), pid(pid), score(score), idx(idx) {}
+	rabbit(bool select=false ,int x=0, int y=0, int count=0, int dist=0, int pid=0, ll score=0, int idx=0, int lastTurn=0) : x(x), y(y), count(count), dist(dist), pid(pid), score(score), idx(idx), lastTurn(lastTurn) {}
 	const bool operator< (const rabbit& b) const {
 		if (count != b.count)
 			return count > b.count;
@@ -67,7 +69,7 @@ void printMap() {
 
 	for (auto it = cvt.begin(); it != cvt.end(); it++) {
 		int idx = it->second;
-		cout << "토끼(*idx=" << idx << ") pid=" << rbt[idx].pid << ", count=" << rbt[idx].score << ", dist=" << rbt[idx].dist << ", score=" << rbt[idx].score << endl;
+		cout << "토끼(*idx=" << idx << ") pid=" << rbt[idx].pid << ", count=" << rbt[idx].count << ", dist=" << rbt[idx].dist << ", score=" << rbt[idx].score << ", lastTurn="<<rbt[idx].lastTurn<< endl;
 	}
 	cout << "===============" << endl;
 }
@@ -163,7 +165,7 @@ void zigMove(int& x, int& y, int dir, int dist) {
 		}
 	}
 }
-void move() {
+void move(int qq) {
 	rabbit curRbt = rbt[q.top().idx];
 	q.pop();
 
@@ -188,6 +190,7 @@ void move() {
 	rbt[idx].x = sx;
 	rbt[idx].y = sy;
 	rbt[idx].count++;
+	rbt[idx].lastTurn = qq;
 
 	for (int i = 1; i < total; i++) {
 		if (i == idx) continue;
@@ -240,14 +243,17 @@ int main(void) {
 	}
 	Q--;
 
-	for (int QQ = 0; QQ < Q; QQ++) {
+	for (int QQ = 1; QQ <= Q; QQ++) {
+#if DEBUG
+		cout << "QQ = " << QQ << endl << endl;
+#endif
 		cin >> cmd;
 
 		if (cmd == 200) {
 			int K, S;
 			cin >> K >> S;
 			for (int i = 1; i <= K; i++) {
-				move();
+				move(QQ);
 #if DEBUG
 				cout << "Tern = " << i << endl;
 				printMap();
@@ -256,7 +262,7 @@ int main(void) {
 
 			int rbtNum = 0, rx = 0, ry = 0, rpid = 0;
 			for (int i = 1; i < total; i++) {
-				if (!rbt[i].count) continue;
+				if (rbt[i].lastTurn != QQ) continue;
 				if ((rbt[i].x + rbt[i].y) < (rx + ry)) continue;
 				if (rbt[i].x < rx) continue;
 				if (rbt[i].y < ry) continue;
@@ -281,7 +287,7 @@ int main(void) {
 #endif
 		}
 		else {
-			int maxScore = 0;
+			ll maxScore = 0;
 			for (int i = 1; i < total; i++) {
 				maxScore = max(maxScore, rbt[i].score);
 			}
