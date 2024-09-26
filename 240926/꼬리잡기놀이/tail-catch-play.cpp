@@ -1,4 +1,9 @@
-//꼬리잡기 놀이 0940
+//꼬리잡기 놀이 0940 ~ 1126
+/*
+
+	-> 실수 하나 함.
+	:: BFS 할 때 초기조건도 포함시켜야된다면 dx, dy 에서 조건을 검사하는게 아니라 cx, cy에서 조건검사를 해주면된다.
+*/
 #define _CRT_SECURE_NO_WARNINGS
 #define DEBUG false
 #define REOPEN false
