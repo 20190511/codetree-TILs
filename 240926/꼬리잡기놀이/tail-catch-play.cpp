@@ -97,7 +97,6 @@ int main(void) {
 		cout << "After Ball" << endl;
 		printMap();
 #endif
-
 	}
 
 	cout << score;
@@ -296,21 +295,24 @@ void initSetting() {
 			v[i][j] = true;
 			teamMap[i][j] = teamCnt;
 			q.push({ i,j });
+
 			while (!q.empty()) {
 				int cx = q.front().first, cy = q.front().second;
+
+				if (map[cx][cy] == 1) {
+					team[teamCnt].fx = cx;
+					team[teamCnt].fy = cy;
+				}
+				else if (map[cx][cy] == 3) {
+					team[teamCnt].bx = cx;
+					team[teamCnt].by = cy;
+				}
 				q.pop();
 				for (int x = 0; x < 4; x++) {
 					int dx = cx + mv[x].first, dy = cy + mv[x].second;
 					if (dx < 0 || dx >= N || dy < 0 || dy >= N || !map[dx][dy] || v[dx][dy] ) continue;
 
-					if (map[dx][dy] == 1) {
-						team[teamCnt].fx = dx;
-						team[teamCnt].fy = dy;
-					}
-					else if (map[dx][dy] == 3) {
-						team[teamCnt].bx = dx;
-						team[teamCnt].by = dy;
-					}
+
 					
 					v[dx][dy] = true;
 					q.push({ dx,dy });
