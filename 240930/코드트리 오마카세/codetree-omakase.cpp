@@ -1,4 +1,8 @@
-/// 10:25
+/// 10:25 ~ 11:40
+/*
+	쉬운 구현
+	-1 +1 Algorithm + Hash 문제
+*/
 #define DEBUG false
 #define DEBUGS false
 #define _CRT_SECURE_NO_WARNINGS
