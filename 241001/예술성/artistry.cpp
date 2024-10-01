@@ -1,4 +1,7 @@
-//2030
+//2030 ~ 2130
+/*
+*	단순한 구현 실수없음
+*/
 #define _CRT_SECURE_NO_WARNINGS
 #define DEBUG false
 #define DEBUGS false
