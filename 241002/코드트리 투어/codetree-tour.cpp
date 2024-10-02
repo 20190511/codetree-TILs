@@ -1,4 +1,4 @@
-//코드트리 투어 11:30
+//코드트리 투어 11:30 ~ 13:30
 #define DEBUG false
 #define DEBUGS false
 
