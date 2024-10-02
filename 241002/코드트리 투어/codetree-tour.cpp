@@ -1,4 +1,8 @@
 //코드트리 투어 11:30 ~ 13:20
+/*
+	-> Queue를 15개 두고 풀면 된다.
+	=> 임의의 원소 삭제 테크닉은 checkArr과 recentArr 로 최신 checkArr 과 recentArr로 while 나올 때 무시하면 된다.
+*/
 #define DEBUG false
 #define DEBUGS false
 
