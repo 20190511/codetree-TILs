@@ -1,4 +1,10 @@
 //1816 ~ 1837 (해석완료)
+/*
+* 
+	실수1 : 부모가 button이 안 살아있으면 add 하면 안된다.
+
+
+*/
 #define DEBUG false
 #define DEBUGS false
 #define _CRT_SECURE_NO_WARNINGS
@@ -31,7 +37,7 @@ void addAlarm(int s, int power) {
 		int powerIdx = min(20, curPower);
 		saveAuth[cur][powerIdx]++;
 
-		if (nodes[cur].parent == cur)
+		if (nodes[cur].parent == cur || !nodes[cur].button)
 			break;
 
 		cur = nodes[cur].parent;
@@ -46,7 +52,7 @@ void deleteAlarm(int s, int power) {
 		int powerIdx = min(20, curPower);
 		saveAuth[cur][powerIdx]--;
 
-		if (nodes[cur].parent == cur)
+		if (nodes[cur].parent == cur || !nodes[cur].button)
 			break;
 
 		cur = nodes[cur].parent;
