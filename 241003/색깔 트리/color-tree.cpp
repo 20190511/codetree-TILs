@@ -1,4 +1,7 @@
-//0915 ~ 1008(설계)
+//0915 ~ 1008(설계) ~ 1117
+/*
+	pair 단순실수
+*/
 #define DEBUG false
 #define DEBUGS false
 #define _CRT_SECURE_NO_WARNINGS
