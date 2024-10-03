@@ -1,5 +1,6 @@
 //1816 ~ 1837 (해석완료)
 #define DEBUG false
+#define DEBUGS false
 #define _CRT_SECURE_NO_WARNINGS
 #include <iostream>
 #include <cstring>
@@ -65,7 +66,7 @@ void addAlarmSet(int s) {
 			saveAuth[parent][i - pDepth] += saveAuth[s][i];
 		}
 
-		if (parent == nodes[parent].parent) break;
+		if (parent == nodes[parent].parent || !nodes[parent].button) break;
 		parent = nodes[parent].parent;
 		pDepth++;
 	}
@@ -81,7 +82,7 @@ void deleteAlarmSet(int s) {
 			saveAuth[parent][i - pDepth] -= saveAuth[s][i];
 		}
 
-		if (parent == nodes[parent].parent) break;
+		if (parent == nodes[parent].parent || !nodes[parent].button) break;
 		parent = nodes[parent].parent;
 		pDepth++;
 	}
@@ -133,11 +134,13 @@ int main(void)
 		}
 		else if (cmd == 300) {
 			cin >> c >> power;
-			if (nodes[c].button)
+			if (nodes[c].button) 
 				deleteAlarm(c, nodes[c].auth);
+
 			nodes[c].auth = power;
 			if (nodes[c].button)
 				addAlarm(c, nodes[c].auth);
+
 
 		}
 		else if (cmd == 400) {
@@ -161,13 +164,12 @@ int main(void)
 			cin >> c;
 
 			int cnt = 0;
-
 			for (int i = 0; i <= 20; i++) {
 				cnt += saveAuth[c][i];
 			}
 
 
-			cout << cnt - 1 << endl;
+			cout << cnt - 1<< endl;
 		}
 	}
 
