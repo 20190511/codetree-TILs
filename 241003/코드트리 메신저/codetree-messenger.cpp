@@ -133,10 +133,11 @@ int main(void)
 		}
 		else if (cmd == 300) {
 			cin >> c >> power;
-			
-			deleteAlarm(c, nodes[c].auth);
+			if (nodes[c].button)
+				deleteAlarm(c, nodes[c].auth);
 			nodes[c].auth = power;
-			addAlarm(c, nodes[c].auth);
+			if (nodes[c].button)
+				addAlarm(c, nodes[c].auth);
 
 		}
 		else if (cmd == 400) {
@@ -166,7 +167,7 @@ int main(void)
 			}
 
 
-			cout << cnt-1 << endl;
+			cout << cnt - 1 << endl;
 		}
 	}
 
