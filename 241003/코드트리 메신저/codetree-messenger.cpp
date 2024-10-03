@@ -66,6 +66,8 @@ void addAlarmSet(int s) {
 	
 	int pDepth = 1;
 	int parent = nodes[s].parent;
+
+
 	while (true) {
 
 		for (int i = pDepth; i <= 20; i++) {
@@ -140,11 +142,9 @@ int main(void)
 		}
 		else if (cmd == 300) {
 			cin >> c >> power;
-			if (nodes[c].button) 
 				deleteAlarm(c, nodes[c].auth);
 
 			nodes[c].auth = power;
-			if (nodes[c].button)
 				addAlarm(c, nodes[c].auth);
 
 
