@@ -1,6 +1,6 @@
 //0915 ~ 1008(설계) ~ 1117
 /*
-	pair 단순실수
+	pair 단순실수 (first, second 실수)
 */
 #define DEBUG false
 #define DEBUGS false
