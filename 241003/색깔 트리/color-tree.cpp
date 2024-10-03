@@ -62,8 +62,8 @@ int nodeColor(int id) {
 	while (true) {
 		// 색 비교
 		pair<int, int> cur = ptr.allColor;
-		if (cur.first != 0 && ratest.second < cur.second) {
-			ratest = cur;
+		if (cur.first != 0 && ratest.first < cur.first) {
+			ratest = cur; 
 		}
 		
 		int pid = ptr.pid;
