@@ -1,7 +1,21 @@
-//1816 ~ 1837 (해석완료)
+//1816 ~ 2025 (이해 20분, 디버깅1시간)
 /*
 * 
-	실수1 : 부모가 button이 안 살아있으면 add 하면 안된다.
+* Alarm 토글 과정에서 문제가 생김
+* --> 해당 문제에서 알람토글 과정에서의 역설
+* 
+* A. addAlarm 과 addAlarmSet 과정이 다름
+*	==> addAlarm은 자기자신을 포함하여 ++ -- 진행
+*   ==> deleteAalarm은 자기자신을 포함하지 않고 진행
+* 
+*  
+	실수1 : 자신/부모가 button이 안 살아있으면 add 하면 안된다. (add/deleteAlarm 과 add/deleteAlarmSet 모두 동일)
+		-> addAlarm은 자기자신도 삭제/삽입이 포함되므로 자기자신의 경우 button Check를 한다.
+		-> addAlarmSet은 자기자신이 포함되지 않으므로 부모까지 button이 토글이 되어있더라도 부모까지는 추가해줘야한다.
+		
+
+	실수2 :	
+		auth 바꿔줄 때 무지성으로 buttonCheck을 해버린 실수
 
 
 */
