@@ -1,4 +1,7 @@
-//1100 ~ 1128 (이해)
+//1100 ~ 1128 (이해) ~ 1227 (1시간30분걸림)
+/**
+	딱히 실수 없었음. 난이도 쉬움
+*/
 #define DEBUG false
 #define DEBUGS false
 #define _CRT_SECURE_NO_WARNINGS
