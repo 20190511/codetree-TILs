@@ -159,8 +159,8 @@ bool findRotate() {
 
 	//cx,cy 한 칸씩 올려줘야됨
 	int rCnt = 4, cx = -1, cy = -1, maxCnt = 0;
-	for (int i = 0; i < 3; i++) {
-		for (int j = 0; j < 3; j++) {
+	for (int j = 0; j < 3; j++) {
+		for (int i = 0; i < 3; i++) {
 			
 			for (int r = 0; r < 3; r++) {
 				int curScore = rotate(i, j, true);
