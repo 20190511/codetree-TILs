@@ -1,4 +1,10 @@
-//0950
+//0950 ~ 1057
+/**
+	아주쉬운 구현
+	
+	단 실수1. 열작 > 행작 인데 행작 > 열작으로 풀어서 한 번 틀림
+	그림그릴 때 열, 행 순서를 좀 써주자.
+*/
 #define _CRT_SECURE_NO_WARNINGS
 #define DEBUGS false
 #define DEBUG  false
