@@ -7,7 +7,7 @@
 */
 #define _CRT_SECURE_NO_WARNINGS
 #define DEBUGS true
-#define DEBUG false
+#define DEBUG true
 #include <iostream>
 #include <queue>
 #include <vector>
