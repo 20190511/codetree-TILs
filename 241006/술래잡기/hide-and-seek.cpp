@@ -1,6 +1,12 @@
-//1100 ~ 1110 이해
+//1100 ~ 1110 이해 ~ 1228
+/**
+	int dx, dy복붙 과정에서
+	
+	다시 int dx, dy 로 초기화시켜버리는 문제가 발생하여 오류가 발생함.
+	반성
+*/
 #define _CRT_SECURE_NO_WARNINGS
-#define DEBUGS false
+#define DEBUGS true
 #define DEBUG false
 #include <iostream>
 #include <queue>
