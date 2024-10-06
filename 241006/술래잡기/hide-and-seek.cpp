@@ -6,8 +6,8 @@
 	반성
 */
 #define _CRT_SECURE_NO_WARNINGS
-#define DEBUGS true
-#define DEBUG true
+#define DEBUGS false
+#define DEBUG false
 #include <iostream>
 #include <queue>
 #include <vector>
