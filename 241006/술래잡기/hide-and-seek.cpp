@@ -1,4 +1,4 @@
-//1100 ~ 1110 이해 ~ 1220
+//1100 ~ 1110 이해
 #define _CRT_SECURE_NO_WARNINGS
 #define DEBUGS false
 #define DEBUG false
@@ -188,8 +188,8 @@ void manMove() {
 		if (dx < 0 || dx >= N || dy < 0 || dy >= N) {
 			man[m].d2 = (man[m].d2 + 1) % 2;
 			int subD = man[m].d2;
-			int dx = man[m].x + manMv[originD][subD].first;
-			int dy = man[m].y + manMv[originD][subD].second;
+			dx = man[m].x + manMv[originD][subD].first;
+			dy = man[m].y + manMv[originD][subD].second;
 		}
 
 		if (dx == sulX && dy == sulY) {
@@ -306,6 +306,9 @@ int main(void)
 
 #if DEBUG
 		cout << " << t = " << t << " >>" << endl << endl;
+
+		if (t == 11)
+			cout << "debug" << endl;
 #endif
 		manMove();
 
