@@ -1,4 +1,9 @@
-//1926 ~ 이해 1945
+//0726 ~ 이해 0745 ~ 0830
+/*
+* vector 연결할 때 q.insert(q.end(), n.begin(), n.end()); 이다.
+* 근데 emplace로 연결해버리는 실수로 한 10분 까먹었다.
+* emplace는 보니까 push_back과 비슷한거 같다.
+*/
 #define _CRT_SECURE_NO_WARNINGS
 #define DEBUGS false
 #define DEBUG false
