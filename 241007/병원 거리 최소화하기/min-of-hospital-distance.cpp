@@ -1,4 +1,4 @@
-//0845
+//0845 ~ 0903 (20분컷)
 #define DEBUG false
 #define DEBUGS false
 #define _CRT_SECURE_NO_WARNINGS
