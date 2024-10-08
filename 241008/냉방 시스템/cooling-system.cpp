@@ -81,7 +81,7 @@ bool canGo(int x, int y, int dir) {
 
 	int dx = x + mv[dir].first, dy = y + mv[dir].second;
 
-	if (dx <= 0 || dy > N || dy <= 0 || dy > N) return false;
+	if (dx <= 0 || dx > N || dy <= 0 || dy > N) return false;
 
 	if (dir == 0 && cwall[x][y-1]) return false;
 	if (dir == 1 && rwall[x-1][y]) return false;
@@ -172,7 +172,7 @@ void airconSimul() {
 
 
 void baramMove() {
-	int cpyMap[21][21];
+	int cpyMap[21][21] = { 0, };
 	memcpy(cpyMap, siwon, sizeof(cpyMap));
 
 	for (int i = 1; i <= N; i++) {
