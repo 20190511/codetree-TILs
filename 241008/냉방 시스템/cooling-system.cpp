@@ -1,5 +1,6 @@
-//1500
-#define _CRT_SECURE_NO_WARNINGS
+//1500 ~ 1653
+// 실수가 좀 있었다. 조심할 것.
+#define _CRT_SECURE_NO_WARNINGS 
 #define DEBUG false
 #define DEBUGS false
 #include <cstring>
@@ -11,6 +12,7 @@ using namespace std;
 /*
 * 1. 바람 외벽일때 이동안하는거 고려못한 실수
 * 2. 적분 영상기법에서 N-1로 임의로 범위를 좁히면 안됨
+* 3. dx, dy 범취체크 실수
 */
 
 int map[21][21], siwon[21][21];
