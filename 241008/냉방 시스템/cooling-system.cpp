@@ -49,7 +49,7 @@ void printMap() {
 	*/
 	for (int i = 1; i <= N; i++) {
 		for (int j = 1; j <= N; j++) {
-			cout << siwon[i][j];
+			printf("%-3d", siwon[i][j]);
 			if (cwall[i][j])
 				cout << "X";
 			else
@@ -59,9 +59,10 @@ void printMap() {
 		cout << endl;
 		for (int j = 1; j <= N; j++) {
 			if (rwall[i][j])
-				cout << "X ";
+				cout << "X";
 			else
-				cout << "  ";
+				cout << " ";
+			cout << "   ";
 
 		}
 		cout << endl;
@@ -178,23 +179,28 @@ void baramMove() {
 			int rDiff = abs(cur - right) / 4;
 			int dDiff = abs(cur - down) / 4;
 
-			if (cur < right) {
-				siwon[i][j] += rDiff;
-				siwon[i][j + 1] -= rDiff;
-			}
-			else if (cur > right) {
-				siwon[i][j] -= rDiff;
-				siwon[i][j + 1] += rDiff;
+			if (canGo(i, j, 2)) {
+				if (cur < right) {
+					siwon[i][j] += rDiff;
+					siwon[i][j + 1] -= rDiff;
+				}
+				else if (cur > right) {
+					siwon[i][j] -= rDiff;
+					siwon[i][j + 1] += rDiff;
+				}
 			}
 
-			if (cur < down) {
-				siwon[i][j] += dDiff;
-				siwon[i+1][j] -= dDiff;
+			if (canGo(i, j, 3)) {
+				if (cur < down) {
+					siwon[i][j] += dDiff;
+					siwon[i + 1][j] -= dDiff;
+				}
+				else if (cur > down) {
+					siwon[i][j] -= dDiff;
+					siwon[i + 1][j] += dDiff;
+				}
 			}
-			else if (cur > down) {
-				siwon[i][j] -= dDiff;
-				siwon[i + 1][j] += dDiff;
-			}
+
 		}
 	}
 
