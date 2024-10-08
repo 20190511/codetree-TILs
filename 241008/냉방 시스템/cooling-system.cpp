@@ -8,6 +8,10 @@
 #include <vector>
 using namespace std;
 
+/*
+* 1. 바람 외벽일때 이동안하는거 고려못한 실수
+* 2. 적분 영상기법에서 N-1로 임의로 범위를 좁히면 안됨
+*/
 
 int map[21][21], siwon[21][21];
 bool cwall[22][22], rwall[22][22];
@@ -171,8 +175,8 @@ void baramMove() {
 	int cpyMap[21][21];
 	memcpy(cpyMap, siwon, sizeof(cpyMap));
 
-	for (int i = 1; i <= N-1; i++) {
-		for (int j = 1; j <= N - 1; j++) {
+	for (int i = 1; i <= N; i++) {
+		for (int j = 1; j <= N; j++) {
 			
 			int cur = cpyMap[i][j], right = cpyMap[i][j + 1], down = cpyMap[i + 1][j];
 
