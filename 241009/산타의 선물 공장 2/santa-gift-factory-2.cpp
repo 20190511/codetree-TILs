@@ -152,6 +152,7 @@ int main(void) {
 	freopen("q.txt", "r", stdin);
 #endif
 	
+	cin.tie(0)->sync_with_stdio(false);
 	int cmd, m_src, m_dst, p_num, b_num;
 	set<int> beltQ;
 	cin >> Q;
