@@ -1,4 +1,14 @@
-//0956 ~ 1013 이해
+//0956 ~ 1013 이해 ~ 1132 (풀이)
+
+/*
+* 
+* 아이템 추적 Vector (수동연결리스트) 와 vector의 조화로 풀 수 있음
+* 단, item 추적을 위해 연결할 때 실수가 자주 나는데
+*	-1 일 때 연결여부에서 실수가 주로남
+* 
+* *** 해결책 ***
+*	좀 과도할지라도 초기화가 필요없음에도 초기화를 꾸준히 해주고 items를 수동연결할 것.
+*/
 #define _CRT_SECURE_NO_WARNINGS
 #define DEBUG false
 #define DEBUGS false
