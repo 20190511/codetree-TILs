@@ -106,6 +106,7 @@ void goJudge(int t) {
 	bool canJudge = false;
 	
 	for (int i = 1 ; i < totalDomain ; i++) {
+		if (wq[i].empty()) continue;
 		node cur = wq[i].top();
 		pair<int, int> hist = history[cur.domainIdx]; // t>=0
 
