@@ -5,12 +5,15 @@
 #include <iostream>
 #include <cstring>
 #include <vector>
-#include <unordered_map>
+#include <map>
 #include <queue>
 #include <set>
 #define endl "\n"
 /*
 	문제 이해 실패 -> 하나라도 가능하면 q에서 빼는부분 망각.
+	시간초과
+		-> unordered_map 을 set으로 변경 (wq_checker)
+		-> unordered_map을 idx find로 변경
 */
 
 using namespace std;
@@ -43,7 +46,7 @@ priority_queue<node> wq;
 priority_queue<int, vector<int>, tmp> judgeIDQ;
 pair<bool, node> judgeQ[100001];
 
-unordered_map<string, int> domainIdx;
+map<string, int> domainIdx;
 pair<int, int> history[301];
 
 //unordered_map<string, pair<int,int>> history; //도메인 현 채점 상태 <시작, 끝> => 채점시작 시 1000001
