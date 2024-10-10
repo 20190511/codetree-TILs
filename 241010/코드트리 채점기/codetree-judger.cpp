@@ -16,12 +16,13 @@
 using namespace std;
 
 struct node {
+	int domainIdx;
 	string domain;
 	string url;
 	int id;
 	int t;
 	int p;
-	node(string d="", string url="", int id = 0, int t = 0, int p = 0) : url(url), domain(d), id(id), t(t), p(p) {}
+	node(int domainIdx=0, string d="", string url="", int id = 0, int t = 0, int p = 0) : domainIdx(domainIdx), url(url), domain(d), id(id), t(t), p(p) {}
 
 	const bool operator< (const node& b) const {
 		if (p == b.p)
@@ -42,10 +43,13 @@ priority_queue<node> wq;
 priority_queue<int, vector<int>, tmp> judgeIDQ;
 pair<bool, node> judgeQ[100001];
 
-unordered_map<string, pair<int,int>> history; //도메인 현 채점 상태 <시작, 끝> => 채점시작 시 1000001
+unordered_map<string, int> domainIdx;
+pair<int, int> history[301];
+
+//unordered_map<string, pair<int,int>> history; //도메인 현 채점 상태 <시작, 끝> => 채점시작 시 1000001
 //채점 시작 시 검사
 
-int Q, N, runCnt=0;
+int Q, N, runCnt=0, totalDomain=1;
 
 pair<string, int> domainCvt(string url) {
 	size_t tok = url.find("/");
@@ -67,8 +71,15 @@ void goWait(string url, int p, int t) {
 
 	pair<string, int> cvt = domainCvt(url);
 	//wq_checker[url] = true;
+
 	wq_checker.insert(url);
-	wq.push(node(cvt.first, url, cvt.second, t, p));
+
+	int mydomId = domainIdx[cvt.first];
+	if (!mydomId) {
+		domainIdx[cvt.first] = totalDomain;
+		mydomId = totalDomain++;
+	}
+	wq.push(node(mydomId, cvt.first, url, cvt.second, t, p));
 
 #if DEBUG
 	cout << " ** url 대기큐 삽입 : " << url << endl;
@@ -101,7 +112,7 @@ void goJudge(int t) {
 		top = wq.top();
 		wq.pop();
 
-		pair<int, int> hist = history[top.domain]; // t>=0
+		pair<int, int> hist = history[top.domainIdx]; // t>=0
 
 		int diff = hist.second - hist.first;
 		int test = hist.first + 3 * diff;
@@ -134,7 +145,7 @@ void goJudge(int t) {
 	int j_id = judgeIDQ.top();
 	judgeIDQ.pop();
 	judgeQ[j_id] = { true, top };
-	history[top.domain] = { t, 1000001 };
+	history[top.domainIdx] = { t, 1000001 };
 	runCnt--;
 
 #if DEBUG
@@ -154,8 +165,8 @@ void goFinish(int t, int j_id) {
 	node top = judgeQ[j_id].second;
 	judgeQ[j_id] = { false, node() };
 	
-	pair<int, int> save = history[top.domain];
-	history[top.domain] = { save.first, t };
+	pair<int, int> save = history[top.domainIdx];
+	history[top.domainIdx] = { save.first, t };
 	judgeIDQ.push(j_id);
 	runCnt++;
 #if DEBUG
