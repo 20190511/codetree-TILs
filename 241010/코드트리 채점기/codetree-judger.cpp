@@ -84,20 +84,42 @@ void goJudge(int t) {
 		return;
 	}
 
-
+	queue<node> tmpQ;
 	node top = wq.top();
-	pair<int, int> hist = history[top.domain]; // t>=0
 
-	int diff = hist.second - hist.first;
-	int test = hist.first + 3 * diff;
-	if (test > t) {
+	bool canJudge = false;
+	while (!wq.empty()) {
+		top = wq.top();
+		wq.pop();
+
+		pair<int, int> hist = history[top.domain]; // t>=0
+
+		int diff = hist.second - hist.first;
+		int test = hist.first + 3 * diff;
+		if (test > t) {
 #if DEBUG
-		cout << " ** start+diff*3=" << test<<", curTime="<<t<<" 으로 채점 불가" << endl;
+			cout << " ** url=" << top.url << "은 start + diff * 3 = " << test << ", curTime = " << t << " 으로 채점 불가" << endl;
+#endif
+		}
+		else {
+			canJudge = true;
+			break;
+		}
+		tmpQ.push(top);
+	}
+
+	while (!tmpQ.empty()) {
+		wq.push(tmpQ.front());
+		tmpQ.pop();
+	}
+	
+	if (!canJudge) {
+#if DEBUG
+		cout << " ** 대기큐 비어있음." << endl;
 #endif
 		return;
 	}
 
-	wq.pop();
 	wq_checker[top.url] = false;
 
 	int j_id = judgeIDQ.top();
@@ -114,7 +136,7 @@ void goJudge(int t) {
 void goFinish(int t, int j_id) {
 	if (!judgeQ[j_id].first) {
 #if DEBUG
-		cout << j_id<< " ** 채점기 비어있음" << endl;
+		cout << " ** 채점기 비어있음 : j_id=" <<j_id<< endl;
 #endif
 		return;
 	}
@@ -176,6 +198,12 @@ int main(void)
 			cin >> t;
 			cout << wq.size() << endl;
 		}
+#if DEBUG
+		if (i == 103)
+			cout << "debug" << endl;
+		if (i == 119)
+			break;
+#endif
 	}
 
 	return 0;
