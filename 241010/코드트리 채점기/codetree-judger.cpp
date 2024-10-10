@@ -5,7 +5,7 @@
 #include <iostream>
 #include <cstring>
 #include <vector>
-#include <map>
+#include <unordered_map>
 #include <queue>
 #include <set>
 #define endl "\n"
@@ -14,6 +14,9 @@
 	시간초과
 		-> unordered_map 을 set으로 변경 (wq_checker)
 		-> unordered_map을 idx find로 변경
+
+	시간초과 해결
+	:: domain 별 priority를 관리해야한다.
 */
 
 using namespace std;
@@ -42,11 +45,11 @@ struct tmp {
 
 //unordered_map<string, int> wq_checker; //1이면 현재 존재, 0면 wq에서 나감.
 set<string> wq_checker;
-priority_queue<node> wq;
+priority_queue<node> wq[301];
 priority_queue<int, vector<int>, tmp> judgeIDQ;
 pair<bool, node> judgeQ[100001];
 
-map<string, int> domainIdx;
+unordered_map<string, int> domainIdx;
 pair<int, int> history[301];
 
 //unordered_map<string, pair<int,int>> history; //도메인 현 채점 상태 <시작, 끝> => 채점시작 시 1000001
@@ -82,7 +85,7 @@ void goWait(string url, int p, int t) {
 		domainIdx[cvt.first] = totalDomain;
 		mydomId = totalDomain++;
 	}
-	wq.push(node(mydomId, cvt.first, url, cvt.second, t, p));
+	wq[mydomId].push(node(mydomId, cvt.first, url, cvt.second, t, p));
 
 #if DEBUG
 	cout << " ** url 대기큐 삽입 : " << url << endl;
@@ -99,23 +102,12 @@ void goJudge(int t) {
 		return;
 	}
 
-	if (wq.empty()) {
-#if DEBUG
-		cout << " ** 대기큐 비어있음." << endl;
-#endif
-		return;
-	}
-
-	queue<node> tmpQ;
-	node top = wq.top();
-
+	node top = node(-1, "", "", -1, 0, 1000001);
 	bool canJudge = false;
 	
-	while (!wq.empty()) {
-		top = wq.top();
-		wq.pop();
-
-		pair<int, int> hist = history[top.domainIdx]; // t>=0
+	for (int i = 1 ; i < totalDomain ; i++) {
+		node cur = wq[i].top();
+		pair<int, int> hist = history[cur.domainIdx]; // t>=0
 
 		int diff = hist.second - hist.first;
 		int test = hist.first + 3 * diff;
@@ -123,17 +115,13 @@ void goJudge(int t) {
 #if DEBUG
 			cout << " ** url=" << top.url << "은 start + diff * 3 = " << test << ", curTime = " << t << " 으로 채점 불가" << endl;
 #endif
+			continue;
 		}
-		else {
-			canJudge = true;
-			break;
+
+		canJudge = true;
+		if (top.p > cur.p || ((top.p == cur.p) && (top.t > cur.t))) {
+			top = cur;
 		}
-		tmpQ.push(top);
-	}
-	
-	while (!tmpQ.empty()) {
-		wq.push(tmpQ.front());
-		tmpQ.pop();
 	}
 	
 	if (!canJudge) {
@@ -143,6 +131,8 @@ void goJudge(int t) {
 		return;
 	}
 
+
+	wq[top.domainIdx].pop();
 	//wq_checker[top.url] = false;
 	wq_checker.erase(top.url);
 	int j_id = judgeIDQ.top();
@@ -219,7 +209,12 @@ int main(void)
 		}
 		else if (cmd == 500) {
 			cin >> t;
-			cout << wq.size() << endl;
+			
+			int sums = 0;
+			for (int i = 1; i < totalDomain; i++) {
+				sums += wq[i].size();
+			}
+			cout << sums << endl;
 		}
 #if DEBUG
 		if (i == 103)
