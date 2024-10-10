@@ -7,6 +7,11 @@
 #include <vector>
 #include <unordered_map>
 #include <queue>
+#include <set>
+#define endl "\n"
+/*
+	문제 이해 실패 -> 하나라도 가능하면 q에서 빼는부분 망각.
+*/
 
 using namespace std;
 
@@ -31,9 +36,9 @@ struct tmp {
 	}
 };
 
-unordered_map<string, int> wq_checker; //1이면 현재 존재, 0면 wq에서 나감.
+//unordered_map<string, int> wq_checker; //1이면 현재 존재, 0면 wq에서 나감.
+set<string> wq_checker;
 priority_queue<node> wq;
-
 priority_queue<int, vector<int>, tmp> judgeIDQ;
 pair<bool, node> judgeQ[100001];
 
@@ -51,7 +56,9 @@ pair<string, int> domainCvt(string url) {
 }
 
 void goWait(string url, int p, int t) {
-	if (wq_checker[url] == 1) {
+
+	//if (wq_checker[url] == 1) {
+	if (wq_checker.find(url) != wq_checker.end()) {
 #if DEBUG
 		cout << " ** 동일 url 존재 : " << url << endl;
 #endif
@@ -59,7 +66,8 @@ void goWait(string url, int p, int t) {
 	}
 
 	pair<string, int> cvt = domainCvt(url);
-	wq_checker[url] = true;
+	//wq_checker[url] = true;
+	wq_checker.insert(url);
 	wq.push(node(cvt.first, url, cvt.second, t, p));
 
 #if DEBUG
@@ -88,6 +96,7 @@ void goJudge(int t) {
 	node top = wq.top();
 
 	bool canJudge = false;
+	
 	while (!wq.empty()) {
 		top = wq.top();
 		wq.pop();
@@ -107,7 +116,7 @@ void goJudge(int t) {
 		}
 		tmpQ.push(top);
 	}
-
+	
 	while (!tmpQ.empty()) {
 		wq.push(tmpQ.front());
 		tmpQ.pop();
@@ -120,8 +129,8 @@ void goJudge(int t) {
 		return;
 	}
 
-	wq_checker[top.url] = false;
-
+	//wq_checker[top.url] = false;
+	wq_checker.erase(top.url);
 	int j_id = judgeIDQ.top();
 	judgeIDQ.pop();
 	judgeQ[j_id] = { true, top };
