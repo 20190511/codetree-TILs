@@ -1,4 +1,4 @@
-//0803 ~ 35이해
+//0803 ~ 35이해 ~ 1030 (도메인 별 queue를 설정하는 방법을 생각하지 못함)
 #define _CRT_SECURE_NO_WARNINGS
 #define DEBUG false
 #define DEBUGS false
