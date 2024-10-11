@@ -1,4 +1,5 @@
 //1100 ~ 1110
+//https://school.programmers.co.kr/learn/courses/30/lessons/42897
 // 좋은 DP 문제
 // 원으로 둘러져있는 집의 인접한 집은 털 수 없다.
 // 첫 번째 집을 무조건 턴다. -> for문탐색으로 N-1 번까지 하면서 max(dp[i-2] + item , dp[i-1]) 해주면됨
