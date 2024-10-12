@@ -1,4 +1,5 @@
-//1836 1911(거리구현)
+//1836 1911(거리구현) ~ 1936 (완전구현) -> 실수없음
+// 좌표계산법 중요!
 #define _CRT_SECURE_NO_WARNINGS
 #define DEBUG false
 #define DEBUGS false
