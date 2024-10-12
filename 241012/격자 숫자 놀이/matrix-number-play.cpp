@@ -1,4 +1,4 @@
-//1945
+//1945 ~ 2021 해시사용 쉬운 디버그
 #define _CRT_SECURE_NO_WARNINGS
 #define DEBUG false
 #define DEBUGS false
